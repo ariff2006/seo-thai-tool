@@ -1,5 +1,5 @@
 /**
- * SEOไทย — script.js
+ * SEOไทย — script.js  (FIXED)
  * ─────────────────────────────────────────────────────────
  * Flow:
  *  1. User types → auto-detect mode (keyword / url)
@@ -147,12 +147,13 @@ function shakeInput() {
 ═══════════════════════════════════════════════════ */
 async function fetchAnalysis(query, mode) {
   if (CONFIG.USE_LOCAL_MOCK) {
-    await sleep(400); // simulate latency
+    await sleep(400);
     return mode === 'url' ? mockUrlData(query) : mockKeywordData(query);
   }
 
-const res = await fetch(CONFIG.GAS_URL, {
+  const res = await fetch(CONFIG.GAS_URL, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query, mode }),
   });
 
@@ -160,34 +161,12 @@ const res = await fetch(CONFIG.GAS_URL, {
 
   const data = await res.json();
   if (data.status === 'error') throw new Error(data.message || 'API error');
-  if (!data.issues || !Array.isArray(data.issues)) throw new Error('API response invalid');
-
-  return data;
-
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-
-  const data = await res.json();
-  if (data.status === 'error') throw new Error(data.message || 'API error');
-  if (!data.issues || !Array.isArray(data.issues)) throw new Error('API response invalid');
-
-  return data;
-
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-
-  const data = await res.json();
-
-  if (data.status === 'error') throw new Error(data.message || 'API error');
-
   if (!data.issues || !Array.isArray(data.issues)) {
     throw new Error('รูปแบบข้อมูลจาก API ไม่ถูกต้อง');
   }
 
   return data;
-
-if (!res.ok) throw new Error(`API error: ${res.status}`);
-const data = await res.json();
-if (data.status === 'error') throw new Error(data.message || 'API error');
-return data;
+}
 
 /* ── LOCAL MOCK DATA ──────────────────────────────── */
 function mockKeywordData(query) {
@@ -197,10 +176,10 @@ function mockKeywordData(query) {
     score: 62,
     grade: 'B-',
     stats: [
-      { label: 'Search Volume', value: '12,400', color: 'gold' },
+      { label: 'Search Volume',      value: '12,400', color: 'gold'  },
       { label: 'Keyword Difficulty', value: '58/100', color: 'amber' },
-      { label: 'CPC (บาท)', value: '฿14.50', color: 'green' },
-      { label: 'Competition', value: 'Medium', color: 'amber' },
+      { label: 'CPC (บาท)',          value: '฿14.50', color: 'green' },
+      { label: 'Competition',        value: 'Medium', color: 'amber' },
     ],
     issues: [
       {
@@ -250,10 +229,10 @@ function mockUrlData(query) {
     score: 47,
     grade: 'C+',
     stats: [
-      { label: 'Page Speed', value: '54/100', color: 'amber' },
-      { label: 'Mobile Score', value: '61/100', color: 'amber' },
-      { label: 'ปัญหา Critical', value: '3 รายการ', color: 'red' },
-      { label: 'ปัญหาทั้งหมด', value: '9 รายการ', color: 'gold' },
+      { label: 'Page Speed',    value: '54/100',    color: 'amber' },
+      { label: 'Mobile Score',  value: '61/100',    color: 'amber' },
+      { label: 'ปัญหา Critical', value: '3 รายการ', color: 'red'   },
+      { label: 'ปัญหาทั้งหมด',   value: '9 รายการ', color: 'gold'  },
     ],
     issues: [
       {
@@ -321,7 +300,6 @@ function showLoading(mode) {
   $('loadingSection').style.display = 'block';
   $('loadingIcon').textContent = mode === 'url' ? '🌐' : '🔑';
   $('loadingText').textContent = mode === 'url' ? 'กำลังวิเคราะห์เว็บไซต์...' : 'กำลังวิเคราะห์คีย์เวิร์ด...';
-  // Reset steps
   ['step1','step2','step3'].forEach(id => {
     const el = $(id);
     el.className = 'step-item';
@@ -417,10 +395,8 @@ function animateScore(score, grade) {
   const circumference = 2 * Math.PI * 52; // r=52
   const arc = $('scoreArc');
 
-  // Color
   arc.className = 'score-arc ' + (score >= 70 ? 'green' : score >= 50 ? 'amber' : 'red');
 
-  // Animate number
   let current = 0;
   const duration = 1200;
   const start = performance.now();
@@ -428,17 +404,15 @@ function animateScore(score, grade) {
 
   function tick(now) {
     const t = Math.min((now - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - t, 3); // cubic ease out
+    const ease = 1 - Math.pow(1 - t, 3);
     current = Math.round(ease * score);
     el.textContent = current;
-    // Arc
     const filled = (ease * score / 100) * circumference;
     arc.setAttribute('stroke-dasharray', `${filled} ${circumference - filled}`);
     if (t < 1) requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
 
-  // Grade
   const gradeEl = $('scoreGrade');
   gradeEl.textContent = grade;
   gradeEl.style.color = score >= 70 ? 'var(--green)' : score >= 50 ? 'var(--amber)' : 'var(--red)';
@@ -461,7 +435,6 @@ function resetSearch() {
    ERROR DISPLAY
 ═══════════════════════════════════════════════════ */
 function showError(msg) {
-  // Simple toast-style error
   const toast = document.createElement('div');
   toast.style.cssText = `
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
@@ -481,7 +454,6 @@ function showPayment() {
   const modal = $('paymentModal');
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
-  // Ensure step 1 is showing
   goToQR();
 }
 
@@ -587,7 +559,6 @@ async function submitSlip() {
 
   try {
     if (!CONFIG.USE_LOCAL_MOCK) {
-      // Real submission to GAS
       const formData = new FormData();
       formData.append('action', 'submitSlip');
       formData.append('email', email);
@@ -601,7 +572,6 @@ async function submitSlip() {
       });
       if (!res.ok) throw new Error('Submission failed');
     } else {
-      // Mock: just wait
       await sleep(1500);
     }
 
@@ -614,7 +584,6 @@ async function submitSlip() {
 }
 
 function showModalError(msg) {
-  // Find or create error in modal
   let err = $('modalError');
   if (!err) {
     err = document.createElement('p');
@@ -644,10 +613,8 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
    INIT
 ═══════════════════════════════════════════════════ */
 (function init() {
-  // Focus search input on load
   setTimeout(() => $('searchInput').focus(), 300);
 
-  // Animate hero in
   document.querySelectorAll('.hero > *').forEach((el, i) => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(16px)';
