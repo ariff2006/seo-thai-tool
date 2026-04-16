@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEOไทย — วิเคราะห์ SEO ฟรี</title>
+  <meta name="description" content="เครื่องมือวิเคราะห์ SEO ภาษาไทย ฟรี — วิเคราะห์ Keyword และตรวจสอบ On-Page SEO ของเว็บไซต์คุณ" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       BACKGROUND GRID + DECORATIVE BLOBS
+  ═══════════════════════════════════════════════ -->
+  <div class="bg-grid"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">SEO<span class="logo-thai">ไทย</span></span>
+    </div>
+    <nav class="header-nav">
+      <span class="nav-badge">Free Tool</span>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════════ -->
+  <main class="main-container">
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="dot"></span> Engineering as Marketing — Thai Edition
+      </div>
+      <h1 class="hero-title">
+        วิเคราะห์ SEO<br/>
+        <span class="hero-title-accent">ของคุณในวินาที</span>
+      </h1>
+      <p class="hero-subtitle">
+        พิมพ์ <strong>คีย์เวิร์ด</strong> เพื่อวิเคราะห์ความยากและโอกาส<br class="hide-mobile"/>
+        หรือวาง <strong>URL</strong> เพื่อตรวจสอบ On-Page SEO ของหน้าเว็บ
+      </p>
+
+      <!-- ── SEARCH BAR ── -->
+      <div class="search-wrapper">
+        <div class="mode-badge" id="modeBadge">
+          <span class="mode-icon" id="modeIcon">🔍</span>
+          <span id="modeLabel">พร้อมรับข้อมูล</span>
+        </div>
+
+        <div class="search-bar" id="searchBar">
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="พิมพ์คีย์เวิร์ด หรือ วาง URL เว็บไซต์..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="analyze-btn" id="analyzeBtn" onclick="handleAnalyze()">
+            <span class="btn-text">วิเคราะห์</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+
+        <div class="search-examples">
+          <span>ตัวอย่าง:</span>
+          <button class="example-chip" onclick="setExample('ร้านอาหารไทย กรุงเทพ')">ร้านอาหารไทย กรุงเทพ</button>
+          <button class="example-chip" onclick="setExample('https://example.co.th')">https://example.co.th</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         LOADING STATE
+    ═══════════════════════════════════════════════ -->
+    <section class="loading-section" id="loadingSection" style="display:none;">
+      <div class="loading-orb">
+        <div class="orb-ring ring-1"></div>
+        <div class="orb-ring ring-2"></div>
+        <div class="orb-ring ring-3"></div>
+        <span class="orb-icon" id="loadingIcon">🔍</span>
+      </div>
+      <p class="loading-text" id="loadingText">กำลังวิเคราะห์...</p>
+      <div class="loading-steps" id="loadingSteps">
+        <div class="step-item active" id="step1">⬡ เชื่อมต่อฐานข้อมูล</div>
+        <div class="step-item" id="step2">⬡ ประมวลผลข้อมูล</div>
+        <div class="step-item" id="step3">⬡ สร้างรายงาน</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         RESULTS SECTION
+    ═══════════════════════════════════════════════ -->
+    <section class="results-section" id="resultsSection" style="display:none;">
+
+      <!-- Results Header -->
+      <div class="results-header">
+        <div class="results-meta">
+          <span class="results-type-badge" id="resultsTypeBadge">Keyword Analysis</span>
+          <span class="results-query" id="resultsQuery"></span>
+        </div>
+        <button class="new-search-btn" onclick="resetSearch()">+ วิเคราะห์ใหม่</button>
+      </div>
+
+      <!-- Score Card -->
+      <div class="score-card" id="scoreCard">
+        <div class="score-left">
+          <div class="score-circle-wrapper">
+            <svg class="score-svg" viewBox="0 0 120 120">
+              <circle class="score-bg" cx="60" cy="60" r="52"/>
+              <circle class="score-arc" id="scoreArc" cx="60" cy="60" r="52"
+                stroke-dasharray="0 327"
+                stroke-dashoffset="82"/>
+            </svg>
+            <div class="score-number-wrap">
+              <span class="score-number" id="scoreNumber">0</span>
+              <span class="score-unit">/100</span>
+            </div>
+          </div>
+          <div class="score-label-wrap">
+            <div class="score-grade" id="scoreGrade">—</div>
+            <div class="score-label-text">คะแนน SEO</div>
+          </div>
+        </div>
+        <div class="score-stats" id="scoreStats">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- Free Issues (visible) -->
+      <div class="issues-section">
+        <div class="section-title">
+          <span class="section-icon">⚡</span>
+          สิ่งที่ตรวจพบ
+          <span class="issue-count" id="issueCount"></span>
+        </div>
+
+        <div class="issues-list" id="freeIssues">
+          <!-- First 2 issues — filled by JS -->
+        </div>
+
+        <!-- ── PAYWALL ZONE ── -->
+        <div class="paywall-zone" id="paywallZone">
+          <div class="blurred-issues" id="blurredIssues">
+            <!-- Locked issues — filled by JS -->
+          </div>
+
+          <div class="paywall-overlay">
+            <div class="paywall-card">
+              <div class="paywall-lock">🔒</div>
+              <h3 class="paywall-title">รายงานฉบับเต็ม</h3>
+              <p class="paywall-desc">
+                ปลดล็อก <strong id="lockedCount">0</strong> ปัญหาที่เหลือ + แนวทางแก้ไขแบบ step-by-step
+              </p>
+              <ul class="paywall-perks">
+                <li>✓ ปัญหาทั้งหมดพร้อมระดับความรุนแรง</li>
+                <li>✓ วิธีแก้ไขแบบละเอียด</li>
+                <li>✓ Priority Action Plan</li>
+                <li>✓ Export รายงาน PDF</li>
+              </ul>
+              <button class="unlock-btn" id="unlockBtn" onclick="showPayment()">
+                <span>🔓 ปลดล็อกรายงานฉบับเต็ม</span>
+                <span class="unlock-price">เพียง 30 บาท</span>
+              </button>
+              <p class="paywall-note">ชำระครั้งเดียว · ไม่ต้องสมัครสมาชิก · PromptPay</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         PAYMENT MODAL
+    ═══════════════════════════════════════════════ -->
+    <div class="modal-backdrop" id="paymentModal" onclick="closePaymentIfBackdrop(event)">
+      <div class="modal-card">
+        <button class="modal-close" onclick="closePayment()">✕</button>
+
+        <div class="modal-header">
+          <div class="modal-step-indicator">
+            <div class="modal-step active" id="mStep1">
+              <span class="step-num">1</span> QR Code
+            </div>
+            <div class="modal-step-line"></div>
+            <div class="modal-step" id="mStep2">
+              <span class="step-num">2</span> อัพโหลดสลิป
+            </div>
+          </div>
+          <h2 class="modal-title">ชำระเงิน 30 บาท</h2>
+          <p class="modal-subtitle">สแกน QR Code แล้วอัพโหลดสลิปการโอน</p>
+        </div>
+
+        <!-- Step 1: QR Code -->
+        <div class="modal-step-content" id="payStep1">
+          <div class="qr-container">
+            <div class="qr-frame">
+              <img src="qr-promptpay.jpg" alt="PromptPay QR Code" style="width:200px;height:auto;display:block;border-radius:4px;" />
+            </div>
+            <div class="qr-amount">฿ 30.00</div>
+            <div class="qr-name">SEOไทย · พร้อมเพย์</div>
+            <div class="qr-phone">patiwatmeekaeo@gmail.com</div>
+          </div>
+          <button class="modal-next-btn" onclick="goToUpload()">
+            โอนแล้ว → อัพโหลดสลิป
+          </button>
+        </div>
+
+        <!-- Step 2: Upload Slip -->
+        <div class="modal-step-content" id="payStep2" style="display:none;">
+          <div class="upload-area" id="uploadArea" onclick="document.getElementById('slipFile').click()"
+               ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="handleDragLeave(event)">
+            <input type="file" id="slipFile" accept="image/*,.pdf" style="display:none" onchange="handleFileSelect(event)"/>
+            <div class="upload-icon" id="uploadIcon">📎</div>
+            <div class="upload-text" id="uploadText">คลิกหรือลากไฟล์สลิปมาวางที่นี่</div>
+            <div class="upload-hint">รองรับ JPG, PNG, PDF</div>
+            <div class="upload-preview" id="uploadPreview" style="display:none;">
+              <img id="previewImg" src="" alt="slip preview"/>
+              <span id="fileName"></span>
+            </div>
+          </div>
+
+          <div class="email-field">
+            <label for="userEmail">อีเมลสำหรับรับรายงาน</label>
+            <input type="email" id="userEmail" placeholder="your@email.com" />
+          </div>
+
+          <button class="submit-slip-btn" id="submitSlipBtn" onclick="submitSlip()">
+            <span id="submitBtnText">ส่งสลิปและรับรายงาน ✓</span>
+          </button>
+
+          <p class="modal-disclaimer">ทีมงานจะตรวจสอบสลิปและส่งรายงานภายใน 30 นาที</p>
+        </div>
+
+        <!-- Step 3: Success -->
+        <div class="modal-step-content" id="payStep3" style="display:none;">
+          <div class="success-state">
+            <div class="success-icon">✅</div>
+            <h3>ได้รับสลิปแล้ว!</h3>
+            <p>เราจะส่งรายงานฉบับเต็มไปยังอีเมลของคุณภายใน 30 นาที</p>
+            <button class="modal-close-btn" onclick="closePayment()">ปิด</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         FEATURES STRIP (below fold)
+    ═══════════════════════════════════════════════ -->
+    <section class="features-strip" id="featuresStrip">
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <span class="feature-text">วิเคราะห์ทันที</span>
+      </div>
+      <div class="feature-divider">·</div>
+      <div class="feature-item">
+        <span class="feature-icon">🇹🇭</span>
+        <span class="feature-text">ข้อมูล SEO ไทย</span>
+      </div>
+      <div class="feature-divider">·</div>
+      <div class="feature-item">
+        <span class="feature-icon">🔒</span>
+        <span class="feature-text">ไม่ต้องสมัครสมาชิก</span>
+      </div>
+      <div class="feature-divider">·</div>
+      <div class="feature-item">
+        <span class="feature-icon">💳</span>
+        <span class="feature-text">ชำระผ่าน PromptPay</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <p>© 2024 SEOไทย · สร้างด้วย ❤️ เพื่อนักการตลาดไทย</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
