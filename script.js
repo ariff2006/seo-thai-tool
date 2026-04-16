@@ -159,13 +159,13 @@ async function fetchAnalysis(query, mode) {
 
   if (!res.ok) throw new Error(`API error: ${res.status}`);
 
-  const data = await res.json();
+  const responseData = await res.json();
   if (data.status === 'error') throw new Error(data.message || 'API error');
   if (!data.issues || !Array.isArray(data.issues)) {
     throw new Error('รูปแบบข้อมูลจาก API ไม่ถูกต้อง');
   }
 
-  return data;
+  return responseData;
 }
 
 /* ── LOCAL MOCK DATA ──────────────────────────────── */
