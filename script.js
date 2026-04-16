@@ -151,9 +151,8 @@ async function fetchAnalysis(query, mode) {
     return mode === 'url' ? mockUrlData(query) : mockKeywordData(query);
   }
 
-  const res = await fetch(CONFIG.GAS_URL, {
+const res = await fetch(CONFIG.GAS_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query, mode }),
   });
 
