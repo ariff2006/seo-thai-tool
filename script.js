@@ -156,6 +156,18 @@ const res = await fetch(CONFIG.GAS_URL, {
     body: JSON.stringify({ query, mode }),
   });
 
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+  const data = await res.json();
+
+  if (data.status === 'error') throw new Error(data.message || 'API error');
+
+  if (!data.issues || !Array.isArray(data.issues)) {
+    throw new Error('รูปแบบข้อมูลจาก API ไม่ถูกต้อง');
+  }
+
+  return data;
+
 if (!res.ok) throw new Error(`API error: ${res.status}`);
 const data = await res.json();
 if (data.status === 'error') throw new Error(data.message || 'API error');
