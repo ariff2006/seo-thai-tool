@@ -12,7 +12,6 @@
 
 const CONFIG = {
   GAS_URL: 'https://script.google.com/macros/s/AKfycbzpqyJy75R8re8WXj5JJEh8wpuWaLnkg7zzzispt2Zf2nIRBlIUQajqR6_y2LIXX8dTtg/exec',
-  // Set to true during development to skip the GAS call and use local mock
   USE_LOCAL_MOCK: false,
   FREE_ISSUE_COUNT: 2,
 };
