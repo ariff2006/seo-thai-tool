@@ -156,9 +156,10 @@ const res = await fetch(CONFIG.GAS_URL, {
     body: JSON.stringify({ query, mode }),
   });
 
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return await res.json();
-}
+if (!res.ok) throw new Error(`API error: ${res.status}`);
+const data = await res.json();
+if (data.status === 'error') throw new Error(data.message || 'API error');
+return data;
 
 /* ── LOCAL MOCK DATA ──────────────────────────────── */
 function mockKeywordData(query) {
