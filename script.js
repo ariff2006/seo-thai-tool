@@ -159,6 +159,22 @@ const res = await fetch(CONFIG.GAS_URL, {
   if (!res.ok) throw new Error(`API error: ${res.status}`);
 
   const data = await res.json();
+  if (data.status === 'error') throw new Error(data.message || 'API error');
+  if (!data.issues || !Array.isArray(data.issues)) throw new Error('API response invalid');
+
+  return data;
+
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+  const data = await res.json();
+  if (data.status === 'error') throw new Error(data.message || 'API error');
+  if (!data.issues || !Array.isArray(data.issues)) throw new Error('API response invalid');
+
+  return data;
+
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+  const data = await res.json();
 
   if (data.status === 'error') throw new Error(data.message || 'API error');
 
