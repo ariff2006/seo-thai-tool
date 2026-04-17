@@ -151,8 +151,8 @@ function getMockData(query, mode) {
     ]};
 }
 
-function showPayment(){$('paymentModal').style.display='flex';$('payStep1').style.display='block';$('payStep2').style.display='none';$('payStep3').style.display='none';$('mStep1').className='modal-step active';$('mStep2').className='modal-step';}
-function closePayment(){$('paymentModal').style.display='none';}
+function showPayment(){$('paymentModal').classList.add('active');$('payStep1').style.display='block';$('payStep2').style.display='none';$('payStep3').style.display='none';$('mStep1').className='modal-step active';$('mStep2').className='modal-step';}
+function closePayment(){$('paymentModal').classList.remove('active');}
 function closePaymentIfBackdrop(e){if(e.target===$('paymentModal'))closePayment();}
 function goToUpload(){$('payStep1').style.display='none';$('payStep2').style.display='block';$('mStep1').className='modal-step done';$('mStep2').className='modal-step active';}
 
