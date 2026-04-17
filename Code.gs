@@ -7,7 +7,9 @@ var CONFIG = {
   SHEET_ID: '1XHiklaISwzqK6bI0lgMbL5WrGwoIGACCJggVJfhwGPw',
   ADMIN_EMAIL: 'patiwatmeekaeo@gmail.com',
   SLIP_FOLDER_ID: '1B6Z6PS7IllvmqbK-EtkEEQdps_24vTuT',
-  PAGESPEED_API_KEY: 'AIzaSyDg8Rj4a-dDDeIojHzjlz1MOmPbsVHwm0g'
+  PAGESPEED_API_KEY: 'AIzaSyDg8Rj4a-dDDeIojHzjlz1MOmPbsVHwm0g',
+  LINE_TOKEN: 'mTm+xMSh9ubQ957nBtQ6+qCisL943G87GkJMJWCkunWezeohuSeXTViDu3Y8roVVb9nY/FpuMv7zNeD1MxtjhMl/XQr/591LRcJH3V9jap+lTL/sHZ0Gk1T+EMH/FpZJosv9nGg1u2HZhUv6vuxRzwdB04t89/1O/w1cDnyilFU=',
+  LINE_USER_ID: 'U52dcf188391a79c1f2f5d3dacf634fae'
 };
 
 function doPost(e) {
@@ -66,6 +68,9 @@ function handleSlipSubmission(data) {
         + '<br><a href="https://docs.google.com/spreadsheets/d/' + CONFIG.SHEET_ID + '" style="background:#1a1a2e;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;">📊 เปิด Google Sheet</a>'
         + '</div>'
     });
+
+    // แจ้งเตือนทาง LINE
+    sendLineMessage('🔔 มีออเดอร์ใหม่!\n📧 ' + data.email + '\n🔍 ' + data.query + '\n💳 ดูสลิป: ' + fileUrl);
 
     return jsonResponse({ success: true, message: 'บันทึกข้อมูลเรียบร้อย' });
   } catch (e) {
@@ -226,18 +231,61 @@ function doGet(e) {
 }
 
 function setupTrigger() {
-  // ลบ trigger เก่าก่อน
+  // ลบ trigger เก่าทั้งหมด
   ScriptApp.getProjectTriggers().forEach(function(t) {
-    if (t.getHandlerFunction() === 'onSheetChange') {
-      ScriptApp.deleteTrigger(t);
-    }
+    ScriptApp.deleteTrigger(t);
   });
-  // สร้าง trigger ใหม่
-  ScriptApp.newTrigger('onSheetChange')
-    .forSpreadsheet(CONFIG.SHEET_ID)
-    .onChange()
+  // Time-based trigger ทุก 1 นาที
+  ScriptApp.newTrigger('checkNewOrders')
+    .timeBased()
+    .everyMinutes(5)
     .create();
   Logger.log('Trigger setup complete!');
+}
+
+function checkNewOrders() {
+  try {
+    var ss      = SpreadsheetApp.openById(CONFIG.SHEET_ID);
+    var sheet   = ss.getSheets()[0];
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 1) return;
+
+    var now     = new Date();
+    var twoMins = 2 * 60 * 1000;
+
+    for (var i = 1; i <= lastRow; i++) {
+      var row     = sheet.getRange(i, 1, 1, 8).getValues()[0];
+      var time    = new Date(row[0]);
+      var email   = row[1];
+      var query   = row[2];
+      var mode    = row[3];
+      var status  = row[4];
+      var fileUrl = row[6];
+      var notified = row[7];
+
+      // ส่งแจ้งเตือนเฉพาะ Pending ที่เพิ่งเข้ามาและยังไม่ได้แจ้ง
+      if (status === 'Pending' && !notified && (now - time) < (6 * 60 * 1000)) {
+        // LINE
+        sendLineMessage('🔔 มีออเดอร์ใหม่!\n📧 ' + email + '\n🔍 ' + query + '\n💳 ดูสลิป: ' + fileUrl);
+        // Email
+        MailApp.sendEmail({
+          to: CONFIG.ADMIN_EMAIL,
+          subject: '🔔 มีออเดอร์ใหม่! — SEOไทย',
+          htmlBody: '<div style="font-family:Arial,sans-serif;padding:20px;">'
+            + '<h2>🔔 มีลูกค้าส่งสลิปใหม่!</h2>'
+            + '<p><strong>อีเมล:</strong> ' + email + '</p>'
+            + '<p><strong>Query:</strong> ' + query + '</p>'
+            + '<p><strong>สลิป:</strong> <a href="' + fileUrl + '">ดูสลิป</a></p>'
+            + '<br><a href="https://docs.google.com/spreadsheets/d/' + CONFIG.SHEET_ID + '" style="background:#1a1a2e;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;">📊 เปิด Google Sheet</a>'
+            + '</div>'
+        });
+        // Mark ว่าแจ้งแล้ว
+        sheet.getRange(i, 8).setValue('Notified');
+      }
+    }
+  } catch(err) {
+    Logger.log('checkNewOrders error: ' + err);
+  }
 }
 
 function onSheetChange(e) {
@@ -247,15 +295,16 @@ function onSheetChange(e) {
     var last  = sheet.getLastRow();
     if (last < 1) return;
 
-    var row    = sheet.getRange(last, 1, 1, 7).getValues()[0];
-    var email  = row[1];
-    var query  = row[2];
-    var mode   = row[3];
-    var status = row[4];
+    var row     = sheet.getRange(last, 1, 1, 7).getValues()[0];
+    var email   = row[1];
+    var query   = row[2];
+    var mode    = row[3];
+    var status  = row[4];
     var fileUrl = row[6];
 
     if (status !== 'Pending') return;
 
+    // แจ้งเตือนทาง Email
     MailApp.sendEmail({
       to:       CONFIG.ADMIN_EMAIL,
       subject:  '🔔 มีออเดอร์ใหม่! — SEOไทย',
@@ -270,8 +319,31 @@ function onSheetChange(e) {
         + '<a href="https://docs.google.com/spreadsheets/d/' + CONFIG.SHEET_ID + '" style="background:#1a1a2e;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;">📊 เปิด Google Sheet</a>'
         + '</div>'
     });
+
+    // แจ้งเตือนทาง LINE
+    sendLineMessage('🔔 มีออเดอร์ใหม่!\n📧 ' + email + '\n🔍 ' + query + '\n💳 ดูสลิป: ' + fileUrl);
+
   } catch(err) {
     Logger.log('onSheetChange error: ' + err);
+  }
+}
+
+function sendLineMessage(message) {
+  try {
+    UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + CONFIG.LINE_TOKEN
+      },
+      payload: JSON.stringify({
+        to: CONFIG.LINE_USER_ID,
+        messages: [{ type: 'text', text: message }]
+      }),
+      muteHttpExceptions: true
+    });
+  } catch(err) {
+    Logger.log('LINE error: ' + err);
   }
 }
 
@@ -365,4 +437,8 @@ function buildEmailReport(report) {
     + '<div style="background:#1a1a2e;color:white;padding:16px;text-align:center;border-radius:0 0 8px 8px;margin-top:0;">'
     + '<p style="margin:0;font-size:13px;">ขอบคุณที่ใช้บริการ SEOไทย 🙏 | <a href="https://seo-thai-tool.vercel.app" style="color:#aaa;">seo-thai-tool.vercel.app</a></p>'
     + '</div></div>';
+}
+
+function testLine() {
+  sendLineMessage('🔔 ทดสอบระบบแจ้งเตือน SEOไทย');
 }
