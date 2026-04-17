@@ -1,7 +1,7 @@
 /* SEOไทย — script.js (v3) */
 
 const CONFIG = {
-  GAS_URL: 'https://script.google.com/macros/s/AKfycbzfaSk88nDk5QfNVkMHtEQRR3CevTRVHFvOOEAuqbHhtGcD9SHbIjzcnK3uDzGmMlt8Rg/exec',
+  GAS_URL: 'https://script.google.com/macros/s/AKfycbyAhGIubOgD1-cdrsP2ZBzmbxHQRAdD1Ka5qds2E_b_fcdI6KWUtTTKdYxEVMLgjF-ppQ/exec',
   USE_LOCAL_MOCK: false,
   FREE_ISSUE_COUNT: 2,
 };
