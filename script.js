@@ -176,7 +176,14 @@ async function submitSlip(){
   var btn=$('submitSlipBtn'),bt=$('submitBtnText');
   btn.disabled=true;bt.textContent='\u0e01\u0e33\u0e25\u0e31\u0e07\u0e2a\u0e48\u0e07...';
   try{
-    var res=await fetch(CONFIG.GAS_URL,{method:'POST',body:JSON.stringify({action:'submitSlip',email:email,query:state.query,mode:state.mode,fileName:_sf.name})});
+    var fileData=await new Promise(function(resolve,reject){
+      var reader=new FileReader();
+      reader.onload=function(ev){resolve(ev.target.result.split(',')[1]);};
+      reader.onerror=reject;
+      reader.readAsDataURL(_sf);
+    });
+    var payload={action:'submitSlip',email:email,query:state.query,mode:state.mode,fileName:_sf.name,mimeType:_sf.type||'image/jpeg',fileData:fileData};
+    var res=await fetch(CONFIG.GAS_URL,{method:'POST',body:JSON.stringify(payload)});
     var r=await res.json();
     if(r.success){$('payStep2').style.display='none';$('payStep3').style.display='block';$('mStep2').className='modal-step done';}
     else throw new Error(r.error||'Server error');
