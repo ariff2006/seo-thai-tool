@@ -56,33 +56,35 @@
     .gen-btn:hover { opacity:.9; transform:translateY(-1px); }
 
     /* ── Right panel ── */
-    .right-panel { display:flex; flex-direction:column; gap:14px; }
+    .right-panel { display:flex; flex-direction:column; gap:16px; }
 
-    /* Google preview (always visible) */
-    .gp-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:16px; }
-    .gp-label { font-size:0.78rem; color:var(--text-muted); margin-bottom:8px; }
-    .google-preview { background:#fff; border-radius:8px; padding:14px 16px; }
-    .gp-title { font-size:18px; color:#1a0dab; font-family:Arial,sans-serif; text-decoration:underline; cursor:pointer; word-break:break-word; }
-    .gp-url   { font-size:13px; color:#006621; font-family:Arial,sans-serif; margin:3px 0; }
-    .gp-desc  { font-size:13px; color:#545454; font-family:Arial,sans-serif; }
+    /* Google preview */
+    .gp-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:20px; }
+    .gp-label { font-size:0.78rem; color:var(--text-muted); margin-bottom:12px; letter-spacing:.4px; }
+    .google-preview { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; }
+    .gp-site-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+    .gp-favicon { width:18px; height:18px; background:var(--surface-3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; }
+    .gp-site-name { font-size:13px; color:var(--text-muted); font-family:Arial,sans-serif; }
+    .gp-url-small { font-size:11px; color:var(--text-dim); font-family:Arial,sans-serif; }
+    .gp-title { font-size:17px; color:#8ab4f8; font-family:Arial,sans-serif; cursor:pointer; word-break:break-word; margin-bottom:4px; line-height:1.4; }
+    .gp-title:hover { text-decoration:underline; }
+    .gp-desc  { font-size:13px; color:#bdc1c6; font-family:Arial,sans-serif; line-height:1.5; }
 
     /* Output */
-    .output-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:16px; display:none; }
-    .output-wrap pre { font-family:var(--font-mono); font-size:0.78rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; max-height:220px; overflow-y:auto; }
-    .btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-    .copy-btn { background:var(--surface-2); border:1px solid var(--border-2); color:var(--text); border-radius:var(--radius-sm); padding:7px 14px; cursor:pointer; font-size:0.8rem; transition:.2s; }
+    .output-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:18px; display:none; }
+    .output-wrap pre { font-family:var(--font-mono); font-size:0.76rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; max-height:200px; overflow-y:auto; background:var(--surface-3); border-radius:var(--radius-sm); padding:12px; margin-top:8px; }
+    .btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+    .copy-btn { background:var(--surface-2); border:1px solid var(--border-2); color:var(--text); border-radius:var(--radius-sm); padding:8px 16px; cursor:pointer; font-size:0.82rem; transition:.2s; }
     .copy-btn:hover { border-color:var(--gold); color:var(--gold); }
-    .copy-btn.wp { border-color:var(--gold); color:var(--gold); }
-
+    .copy-btn.wp { border-color:rgba(245,200,66,.4); color:var(--gold); }
     .wp-box { background:var(--surface-3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; margin-top:10px; display:none; }
-    .wp-box pre { font-family:var(--font-mono); font-size:0.78rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; }
+    .wp-box pre { font-family:var(--font-mono); font-size:0.76rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; }
 
-    /* CTA */
-    .cta-bar { text-align:center; padding:28px 20px; position:relative; z-index:1; }
-    .cta-inner { background:var(--surface); border:1px solid var(--gold-dim); border-radius:var(--radius-lg); padding:22px 32px; max-width:600px; margin:0 auto; }
-    .cta-inner h3 { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
-    .cta-inner p  { color:var(--text-muted); margin-bottom:14px; font-size:0.9rem; }
-    .cta-link { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; padding:10px 24px; border-radius:var(--radius); text-decoration:none; }
+    /* CTA strip */
+    .cta-strip { background:var(--surface); border:1px solid rgba(245,200,66,.2); border-radius:var(--radius-lg); padding:18px 20px; text-align:center; }
+    .cta-strip h3 { font-size:0.95rem; font-weight:700; margin-bottom:5px; }
+    .cta-strip p  { color:var(--text-muted); font-size:0.82rem; margin-bottom:12px; }
+    .cta-link { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; padding:9px 22px; border-radius:var(--radius); text-decoration:none; font-size:0.88rem; }
   </style>
 </head>
 <body>
@@ -164,20 +166,26 @@
       <div class="right-panel">
 
         <div class="gp-wrap">
-          <div class="gp-label">👁️ ตัวอย่างใน Google Search:</div>
+          <div class="gp-label">👁️ ตัวอย่างใน Google Search</div>
           <div class="google-preview">
+            <div class="gp-site-row">
+              <div class="gp-favicon">🌐</div>
+              <div>
+                <div class="gp-site-name" id="gpSiteName">ชื่อเว็บไซต์ของคุณ</div>
+                <div class="gp-url-small" id="gpUrl">https://www.yoursite.co.th</div>
+              </div>
+            </div>
             <div class="gp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
-            <div class="gp-url"   id="gpUrl">https://www.yoursite.co.th</div>
             <div class="gp-desc"  id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
           </div>
         </div>
 
         <div class="output-wrap" id="outputWrap">
-          <div class="gp-label">📋 โค้ด HTML (วางใน &lt;head&gt;):</div>
+          <div class="gp-label">📋 โค้ด HTML — วางใน &lt;head&gt;</div>
           <pre id="outputCode"></pre>
           <div class="btn-row">
             <button class="copy-btn" onclick="copyCode()">📋 Copy HTML</button>
-            <button class="copy-btn wp" onclick="copyWordpress()">🔷 Copy สำหรับ WordPress</button>
+            <button class="copy-btn wp" onclick="copyWordpress()">🔷 WordPress</button>
           </div>
           <div class="wp-box" id="wpBox">
             <div class="gp-label" style="margin-bottom:6px;">🔷 กรอกใน Yoast SEO / RankMath:</div>
@@ -185,10 +193,10 @@
           </div>
         </div>
 
-        <div class="cta-inner" style="text-align:center;">
-          <h3 style="font-size:1rem;margin-bottom:6px;">🔍 วิเคราะห์ SEO แบบละเอียด?</h3>
-          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">วิเคราะห์เว็บด้วย AI ฟรี ไม่ต้องสมัครสมาชิก</p>
-          <a href="index.html" class="cta-link" style="font-size:0.88rem;padding:9px 20px;">→ วิเคราะห์ SEO ฟรี</a>
+        <div class="cta-strip">
+          <h3>🔍 วิเคราะห์ SEO แบบละเอียด?</h3>
+          <p>วิเคราะห์เว็บด้วย AI ฟรี ไม่ต้องสมัครสมาชิก</p>
+          <a href="index.html" class="cta-link">→ วิเคราะห์ SEO ฟรี</a>
         </div>
 
       </div><!-- /right-panel -->
@@ -208,9 +216,11 @@
       var title = document.getElementById('pageTitle').value || 'ชื่อเว็บไซต์ของคุณ';
       var desc  = document.getElementById('pageDesc').value  || 'คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...';
       var url   = document.getElementById('pageUrl').value   || 'https://www.yoursite.co.th';
-      document.getElementById('gpTitle').textContent = title.slice(0,60) + (title.length>60?'...':'');
-      document.getElementById('gpUrl').textContent   = url;
-      document.getElementById('gpDesc').textContent  = desc.slice(0,160) + (desc.length>160?'...':'');
+      var siteName = title.split('|').pop().trim() || title;
+      document.getElementById('gpTitle').textContent    = title.slice(0,60) + (title.length>60?'...':'');
+      document.getElementById('gpSiteName').textContent = siteName.slice(0,40);
+      document.getElementById('gpUrl').textContent      = url;
+      document.getElementById('gpDesc').textContent     = desc.slice(0,160) + (desc.length>160?'...':'');
     }
 
     function generateMeta() {
