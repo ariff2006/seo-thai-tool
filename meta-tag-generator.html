@@ -126,7 +126,14 @@
       </div>
       <div class="preview-label" style="margin-top:16px;">📋 โค้ด HTML (วางใน &lt;head&gt;):</div>
       <pre id="outputCode"></pre>
-      <button class="copy-btn" onclick="copyCode()">📋 Copy โค้ด</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+        <button class="copy-btn" onclick="copyCode()">📋 Copy โค้ด HTML</button>
+        <button class="copy-btn" onclick="copyWordpress()" style="border-color:var(--gold);color:var(--gold);">🔷 Copy สำหรับ WordPress (Yoast / RankMath)</button>
+      </div>
+      <div id="wpBox" style="display:none;margin-top:16px;background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;">
+        <div class="preview-label" style="margin-bottom:8px;">🔷 สำหรับกรอกใน Yoast SEO หรือ RankMath:</div>
+        <pre id="wpCode" style="font-family:var(--font-mono);font-size:0.82rem;color:#a8d8a8;white-space:pre-wrap;word-break:break-all;"></pre>
+      </div>
     </div>
   </div>
 
@@ -204,7 +211,31 @@
       navigator.clipboard.writeText(code).then(function() {
         var btn = document.querySelector('.copy-btn');
         btn.textContent = '✅ Copied!';
-        setTimeout(function(){ btn.textContent = '📋 Copy โค้ด'; }, 2000);
+        setTimeout(function(){ btn.textContent = '📋 Copy โค้ด HTML'; }, 2000);
+      });
+    }
+
+    function copyWordpress() {
+      var title    = document.getElementById('pageTitle').value;
+      var desc     = document.getElementById('pageDesc').value;
+      var keywords = document.getElementById('pageKeywords').value;
+      if (!title || !desc) { alert('กรุณากรอกชื่อเว็บและคำอธิบายก่อนครับ'); return; }
+      var kw = keywords ? keywords.split(',')[0].trim() : '';
+      var wp = '── สำหรับ Yoast SEO / RankMath ──\n\n';
+      wp += 'SEO Title:\n' + title + '\n\n';
+      wp += 'Meta Description:\n' + desc + '\n\n';
+      if (kw) wp += 'Focus Keyword:\n' + kw + '\n\n';
+      wp += '── วิธีใช้ ──\n';
+      wp += '1. เปิดหน้าที่ต้องการแก้ใน WordPress\n';
+      wp += '2. เลื่อนลงล่างสุด หา Yoast SEO หรือ RankMath\n';
+      wp += '3. กรอก SEO Title, Meta Description และ Focus Keyword ตามด้านบน\n';
+      wp += '4. กด Update / Publish';
+      document.getElementById('wpCode').textContent = wp;
+      document.getElementById('wpBox').style.display = 'block';
+      navigator.clipboard.writeText(wp).then(function() {
+        var btns = document.querySelectorAll('.copy-btn');
+        btns[1].textContent = '✅ Copied!';
+        setTimeout(function(){ btns[1].textContent = '🔷 Copy สำหรับ WordPress (Yoast / RankMath)'; }, 2000);
       });
     }
   </script>
