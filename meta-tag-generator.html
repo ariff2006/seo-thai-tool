@@ -10,42 +10,77 @@
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    .tool-hero { text-align:center; padding: 60px 20px 30px; position:relative; z-index:1; }
-    .tool-hero h1 { font-size: clamp(1.8rem,4vw,2.8rem); font-weight:800; margin-bottom:10px; }
-    .tool-hero p { color: var(--text-muted); font-size:1.05rem; }
-    .tool-card { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:32px; margin:0 auto 24px; max-width:760px; position:relative; z-index:1; }
-    .tool-card h2 { font-size:1.1rem; font-weight:700; margin-bottom:20px; color:var(--gold); }
-    .form-group { margin-bottom:18px; }
-    .form-group label { display:block; font-size:0.9rem; font-weight:600; color:var(--text-muted); margin-bottom:6px; }
-    .form-group input, .form-group textarea { width:100%; background:var(--surface-2); border:1px solid var(--border-2); border-radius:var(--radius-sm); padding:12px 16px; color:var(--text); font-family:var(--font-body); font-size:0.95rem; outline:none; transition:border .2s; }
-    .form-group input:focus, .form-group textarea:focus { border-color:var(--gold); }
-    .form-group textarea { min-height:90px; resize:vertical; }
-    .char-count { font-size:0.78rem; color:var(--text-dim); margin-top:4px; }
+    /* ── Layout ── */
+    .page-wrap { max-width:1100px; margin:0 auto; padding:0 20px 40px; position:relative; z-index:1; }
+    .tool-hero { text-align:center; padding:28px 20px 16px; position:relative; z-index:1; }
+    .tool-hero h1 { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:800; margin-bottom:6px; }
+    .tool-hero p  { color:var(--text-muted); font-size:0.95rem; }
+    .breadcrumb   { text-align:center; padding:12px 20px 0; position:relative; z-index:1; }
+    .breadcrumb a { color:var(--text-muted); text-decoration:none; font-size:0.88rem; }
+    .breadcrumb a:hover { color:var(--gold); }
+    .tools-nav  { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; padding:10px 20px 16px; position:relative; z-index:1; }
+    .tool-chip  { background:var(--surface-2); border:1px solid var(--border-2); border-radius:20px; padding:5px 14px; font-size:0.82rem; color:var(--text-muted); text-decoration:none; transition:.2s; }
+    .tool-chip:hover,.tool-chip.active { border-color:var(--gold); color:var(--gold); }
+
+    /* ── Two-column grid ── */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+    @media(max-width:700px){ .two-col { grid-template-columns:1fr; } }
+
+    /* ── Card ── */
+    .card { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:22px; }
+    .card-title { font-size:0.95rem; font-weight:700; color:var(--gold); margin-bottom:14px; }
+
+    /* ── Form ── */
+    .fg { margin-bottom:12px; }
+    .fg label { display:block; font-size:0.82rem; font-weight:600; color:var(--text-muted); margin-bottom:4px; }
+    .fg input, .fg textarea {
+      width:100%; background:var(--surface-2); border:1px solid var(--border-2);
+      border-radius:var(--radius-sm); padding:9px 12px; color:var(--text);
+      font-family:var(--font-body); font-size:0.88rem; outline:none; transition:border .2s; box-sizing:border-box;
+    }
+    .fg input:focus, .fg textarea:focus { border-color:var(--gold); }
+    .fg textarea { min-height:68px; resize:vertical; }
+    .char-count { font-size:0.72rem; color:var(--text-dim); margin-top:3px; }
     .char-count.warn { color:var(--amber); }
     .char-count.bad  { color:var(--red); }
-    .gen-btn { width:100%; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; font-size:1rem; border:none; border-radius:var(--radius); padding:14px; cursor:pointer; transition:.2s; }
+    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    @media(max-width:500px){ .row2 { grid-template-columns:1fr; } }
+
+    .gen-btn {
+      width:100%; background:linear-gradient(135deg,var(--gold),var(--gold-dim));
+      color:#0d0f1a; font-weight:800; font-size:0.95rem; border:none;
+      border-radius:var(--radius); padding:12px; cursor:pointer; transition:.2s; margin-top:4px;
+    }
     .gen-btn:hover { opacity:.9; transform:translateY(-1px); }
-    .output-box { background:var(--surface-3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; margin-top:20px; display:none; }
-    .output-box pre { font-family:var(--font-mono); font-size:0.82rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; }
-    .copy-btn { margin-top:12px; background:var(--surface-2); border:1px solid var(--border-2); color:var(--text); border-radius:var(--radius-sm); padding:8px 18px; cursor:pointer; font-size:0.85rem; transition:.2s; }
+
+    /* ── Right panel ── */
+    .right-panel { display:flex; flex-direction:column; gap:14px; }
+
+    /* Google preview (always visible) */
+    .gp-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:16px; }
+    .gp-label { font-size:0.78rem; color:var(--text-muted); margin-bottom:8px; }
+    .google-preview { background:#fff; border-radius:8px; padding:14px 16px; }
+    .gp-title { font-size:18px; color:#1a0dab; font-family:Arial,sans-serif; text-decoration:underline; cursor:pointer; word-break:break-word; }
+    .gp-url   { font-size:13px; color:#006621; font-family:Arial,sans-serif; margin:3px 0; }
+    .gp-desc  { font-size:13px; color:#545454; font-family:Arial,sans-serif; }
+
+    /* Output */
+    .output-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:16px; display:none; }
+    .output-wrap pre { font-family:var(--font-mono); font-size:0.78rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; max-height:220px; overflow-y:auto; }
+    .btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .copy-btn { background:var(--surface-2); border:1px solid var(--border-2); color:var(--text); border-radius:var(--radius-sm); padding:7px 14px; cursor:pointer; font-size:0.8rem; transition:.2s; }
     .copy-btn:hover { border-color:var(--gold); color:var(--gold); }
-    .preview-box { background:white; border-radius:var(--radius-sm); padding:16px; margin-top:16px; }
-    .preview-title { font-size:18px; color:#1a0dab; font-family:Arial,sans-serif; text-decoration:underline; cursor:pointer; }
-    .preview-url { font-size:13px; color:#006621; font-family:Arial,sans-serif; margin:2px 0; }
-    .preview-desc { font-size:13px; color:#545454; font-family:Arial,sans-serif; }
-    .preview-label { font-size:0.8rem; color:var(--text-muted); margin-bottom:8px; }
-    .cta-section { text-align:center; padding:48px 20px; position:relative; z-index:1; }
-    .cta-box { background:var(--surface); border:1px solid var(--gold-dim); border-radius:var(--radius-lg); padding:32px; max-width:600px; margin:0 auto; }
-    .cta-box h3 { font-size:1.3rem; font-weight:700; margin-bottom:8px; }
-    .cta-box p { color:var(--text-muted); margin-bottom:20px; }
-    .cta-link { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; padding:12px 28px; border-radius:var(--radius); text-decoration:none; transition:.2s; }
-    .cta-link:hover { opacity:.9; }
-    .breadcrumb { text-align:center; padding:20px; position:relative; z-index:1; }
-    .breadcrumb a { color:var(--text-muted); text-decoration:none; font-size:0.9rem; }
-    .breadcrumb a:hover { color:var(--gold); }
-    .tools-nav { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; padding:0 20px 30px; position:relative; z-index:1; }
-    .tool-chip { background:var(--surface-2); border:1px solid var(--border-2); border-radius:20px; padding:6px 16px; font-size:0.85rem; color:var(--text-muted); text-decoration:none; transition:.2s; }
-    .tool-chip:hover, .tool-chip.active { border-color:var(--gold); color:var(--gold); }
+    .copy-btn.wp { border-color:var(--gold); color:var(--gold); }
+
+    .wp-box { background:var(--surface-3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; margin-top:10px; display:none; }
+    .wp-box pre { font-family:var(--font-mono); font-size:0.78rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; }
+
+    /* CTA */
+    .cta-bar { text-align:center; padding:28px 20px; position:relative; z-index:1; }
+    .cta-inner { background:var(--surface); border:1px solid var(--gold-dim); border-radius:var(--radius-lg); padding:22px 32px; max-width:600px; margin:0 auto; }
+    .cta-inner h3 { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+    .cta-inner p  { color:var(--text-muted); margin-bottom:14px; font-size:0.9rem; }
+    .cta-link { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; padding:10px 24px; border-radius:var(--radius); text-decoration:none; }
   </style>
 </head>
 <body>
@@ -60,14 +95,10 @@
         <span class="logo-text">SEO<span class="logo-thai">ไทย</span></span>
       </a>
     </div>
-    <nav class="header-nav">
-      <span class="nav-badge">Free Tool</span>
-    </nav>
+    <nav class="header-nav"><span class="nav-badge">Free Tool</span></nav>
   </header>
 
-  <div class="breadcrumb">
-    <a href="index.html">← กลับหน้าหลัก</a>
-  </div>
+  <div class="breadcrumb"><a href="index.html">← กลับหน้าหลัก</a></div>
 
   <div class="tools-nav">
     <a href="meta-tag-generator.html" class="tool-chip active">🏷️ Meta Tag Generator</a>
@@ -80,68 +111,81 @@
     <p>กรอกข้อมูลเว็บไซต์ของคุณ แล้วรับ Meta Tag HTML พร้อมใช้งาน</p>
   </div>
 
-  <div class="tool-card">
-    <h2>ข้อมูลเว็บไซต์</h2>
+  <div class="page-wrap">
+    <div class="two-col">
 
-    <div class="form-group">
-      <label>ชื่อเว็บไซต์ / Page Title *</label>
-      <input type="text" id="pageTitle" placeholder="เช่น ร้านอาหารไทย อร่อย กรุงเทพ | ชื่อร้าน" oninput="updatePreview(); checkLen('pageTitle','titleCount',50,60)" />
-      <div class="char-count" id="titleCount">0 ตัวอักษร (แนะนำ 50–60)</div>
-    </div>
+      <!-- LEFT: Form -->
+      <div class="card">
+        <div class="card-title">📝 ข้อมูลเว็บไซต์</div>
 
-    <div class="form-group">
-      <label>คำอธิบายเว็บ / Meta Description *</label>
-      <textarea id="pageDesc" placeholder="อธิบายเว็บไซต์ของคุณสั้นๆ ให้คนอยากคลิก เช่น ร้านอาหารไทยต้นตำรับ รสชาติอร่อย ราคาย่อมเยา ใกล้ BTS..." oninput="updatePreview(); checkLen('pageDesc','descCount',120,160)"></textarea>
-      <div class="char-count" id="descCount">0 ตัวอักษร (แนะนำ 120–160)</div>
-    </div>
+        <div class="fg">
+          <label>ชื่อเว็บไซต์ / Page Title *</label>
+          <input type="text" id="pageTitle" placeholder="เช่น ร้านอาหารไทย อร่อย กรุงเทพ | ชื่อร้าน" oninput="updatePreview(); checkLen('pageTitle','titleCount',50,60)" />
+          <div class="char-count" id="titleCount">0 ตัวอักษร (แนะนำ 50–60)</div>
+        </div>
 
-    <div class="form-group">
-      <label>Keywords (คั่นด้วย comma (,))</label>
-      <input type="text" id="pageKeywords" placeholder="เช่น ร้านอาหารไทย, อาหารไทย กรุงเทพ, ข้าวผัด" />
-    </div>
+        <div class="fg">
+          <label>คำอธิบายเว็บ / Meta Description *</label>
+          <textarea id="pageDesc" placeholder="อธิบายเว็บไซต์ของคุณสั้นๆ ให้คนอยากคลิก..." oninput="updatePreview(); checkLen('pageDesc','descCount',120,160)"></textarea>
+          <div class="char-count" id="descCount">0 ตัวอักษร (แนะนำ 120–160)</div>
+        </div>
 
-    <div class="form-group">
-      <label>URL เว็บไซต์</label>
-      <input type="text" id="pageUrl" placeholder="https://www.yoursite.co.th" oninput="updatePreview()" />
-    </div>
+        <div class="fg">
+          <label>Keywords (คั่นด้วย comma (,))</label>
+          <input type="text" id="pageKeywords" placeholder="เช่น ร้านอาหารไทย, อาหารไทย กรุงเทพ" />
+        </div>
 
-    <div class="form-group">
-      <label>ชื่อผู้เขียน / Author (ถ้ามี)</label>
-      <input type="text" id="pageAuthor" placeholder="เช่น ทีม SEOไทย" />
-    </div>
+        <div class="row2">
+          <div class="fg">
+            <label>URL เว็บไซต์</label>
+            <input type="text" id="pageUrl" placeholder="https://www.yoursite.co.th" oninput="updatePreview()" />
+          </div>
+          <div class="fg">
+            <label>ชื่อผู้เขียน / Author</label>
+            <input type="text" id="pageAuthor" placeholder="เช่น ทีม SEOไทย" />
+          </div>
+        </div>
 
-    <div class="form-group">
-      <label>Open Graph Image URL (รูปแชร์โซเชียล)</label>
-      <input type="text" id="ogImage" placeholder="https://www.yoursite.co.th/og-image.jpg" />
-    </div>
+        <div class="fg">
+          <label>Open Graph Image URL (รูปแชร์โซเชียล)</label>
+          <input type="text" id="ogImage" placeholder="https://www.yoursite.co.th/og-image.jpg" />
+        </div>
 
-    <button class="gen-btn" onclick="generateMeta()">✨ สร้าง Meta Tag</button>
-
-    <div class="output-box" id="outputBox">
-      <div class="preview-label">👁️ ตัวอย่างใน Google Search:</div>
-      <div class="preview-box" id="previewBox">
-        <div class="preview-title" id="previewTitle">ชื่อเว็บไซต์ของคุณ</div>
-        <div class="preview-url" id="previewUrl">https://www.yoursite.co.th</div>
-        <div class="preview-desc" id="previewDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
+        <button class="gen-btn" onclick="generateMeta()">✨ สร้าง Meta Tag</button>
       </div>
-      <div class="preview-label" style="margin-top:16px;">📋 โค้ด HTML (วางใน &lt;head&gt;):</div>
-      <pre id="outputCode"></pre>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-        <button class="copy-btn" onclick="copyCode()">📋 Copy โค้ด HTML</button>
-        <button class="copy-btn" onclick="copyWordpress()" style="border-color:var(--gold);color:var(--gold);">🔷 Copy สำหรับ WordPress (Yoast / RankMath)</button>
-      </div>
-      <div id="wpBox" style="display:none;margin-top:16px;background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;">
-        <div class="preview-label" style="margin-bottom:8px;">🔷 สำหรับกรอกใน Yoast SEO หรือ RankMath:</div>
-        <pre id="wpCode" style="font-family:var(--font-mono);font-size:0.82rem;color:#a8d8a8;white-space:pre-wrap;word-break:break-all;"></pre>
-      </div>
-    </div>
-  </div>
 
-  <div class="cta-section">
-    <div class="cta-box">
-      <h3>🔍 ต้องการวิเคราะห์ SEO แบบละเอียด?</h3>
-      <p>วิเคราะห์เว็บไซต์หรือคีย์เวิร์ดของคุณด้วย AI — ฟรี ไม่ต้องสมัครสมาชิก</p>
-      <a href="index.html" class="cta-link">→ คลิกที่นี่เพื่อวิเคราะห์ SEO</a>
+      <!-- RIGHT: Preview + Output -->
+      <div class="right-panel">
+
+        <div class="gp-wrap">
+          <div class="gp-label">👁️ ตัวอย่างใน Google Search:</div>
+          <div class="google-preview">
+            <div class="gp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
+            <div class="gp-url"   id="gpUrl">https://www.yoursite.co.th</div>
+            <div class="gp-desc"  id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
+          </div>
+        </div>
+
+        <div class="output-wrap" id="outputWrap">
+          <div class="gp-label">📋 โค้ด HTML (วางใน &lt;head&gt;):</div>
+          <pre id="outputCode"></pre>
+          <div class="btn-row">
+            <button class="copy-btn" onclick="copyCode()">📋 Copy HTML</button>
+            <button class="copy-btn wp" onclick="copyWordpress()">🔷 Copy สำหรับ WordPress</button>
+          </div>
+          <div class="wp-box" id="wpBox">
+            <div class="gp-label" style="margin-bottom:6px;">🔷 กรอกใน Yoast SEO / RankMath:</div>
+            <pre id="wpCode"></pre>
+          </div>
+        </div>
+
+        <div class="cta-inner" style="text-align:center;">
+          <h3 style="font-size:1rem;margin-bottom:6px;">🔍 วิเคราะห์ SEO แบบละเอียด?</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">วิเคราะห์เว็บด้วย AI ฟรี ไม่ต้องสมัครสมาชิก</p>
+          <a href="index.html" class="cta-link" style="font-size:0.88rem;padding:9px 20px;">→ วิเคราะห์ SEO ฟรี</a>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -157,9 +201,9 @@
       var title = document.getElementById('pageTitle').value || 'ชื่อเว็บไซต์ของคุณ';
       var desc  = document.getElementById('pageDesc').value  || 'คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...';
       var url   = document.getElementById('pageUrl').value   || 'https://www.yoursite.co.th';
-      document.getElementById('previewTitle').textContent = title.slice(0,60) + (title.length>60?'...':'');
-      document.getElementById('previewUrl').textContent   = url;
-      document.getElementById('previewDesc').textContent  = desc.slice(0,160) + (desc.length>160?'...':'');
+      document.getElementById('gpTitle').textContent = title.slice(0,60) + (title.length>60?'...':'');
+      document.getElementById('gpUrl').textContent   = url;
+      document.getElementById('gpDesc').textContent  = desc.slice(0,160) + (desc.length>160?'...':'');
     }
 
     function generateMeta() {
@@ -180,7 +224,6 @@
       if (keywords) code += '<meta name="keywords" content="' + keywords + '">\n';
       if (author)   code += '<meta name="author" content="' + author + '">\n';
       code += '<meta name="robots" content="index, follow">\n\n';
-
       code += '<!-- ═══ Open Graph (Facebook, LINE) ═══ -->\n';
       code += '<meta property="og:type" content="website">\n';
       code += '<meta property="og:title" content="' + title + '">\n';
@@ -188,30 +231,24 @@
       if (url)   code += '<meta property="og:url" content="' + url + '">\n';
       if (ogImg) code += '<meta property="og:image" content="' + ogImg + '">\n';
       code += '<meta property="og:locale" content="th_TH">\n\n';
-
       code += '<!-- ═══ Twitter Card ═══ -->\n';
       code += '<meta name="twitter:card" content="summary_large_image">\n';
       code += '<meta name="twitter:title" content="' + title + '">\n';
       code += '<meta name="twitter:description" content="' + desc + '">\n';
       if (ogImg) code += '<meta name="twitter:image" content="' + ogImg + '">\n';
-
-      if (url) {
-        code += '\n<!-- ═══ Canonical URL ═══ -->\n';
-        code += '<link rel="canonical" href="' + url + '">';
-      }
+      if (url) { code += '\n<!-- ═══ Canonical URL ═══ -->\n'; code += '<link rel="canonical" href="' + url + '">'; }
 
       document.getElementById('outputCode').textContent = code;
-      document.getElementById('outputBox').style.display = 'block';
+      document.getElementById('outputWrap').style.display = 'block';
       updatePreview();
-      document.getElementById('outputBox').scrollIntoView({behavior:'smooth'});
     }
 
     function copyCode() {
       var code = document.getElementById('outputCode').textContent;
       navigator.clipboard.writeText(code).then(function() {
-        var btn = document.querySelector('.copy-btn');
+        var btn = document.querySelectorAll('.copy-btn')[0];
         btn.textContent = '✅ Copied!';
-        setTimeout(function(){ btn.textContent = '📋 Copy โค้ด HTML'; }, 2000);
+        setTimeout(function(){ btn.textContent = '📋 Copy HTML'; }, 2000);
       });
     }
 
@@ -228,14 +265,14 @@
       wp += '── วิธีใช้ ──\n';
       wp += '1. เปิดหน้าที่ต้องการแก้ใน WordPress\n';
       wp += '2. เลื่อนลงล่างสุด หา Yoast SEO หรือ RankMath\n';
-      wp += '3. กรอก SEO Title, Meta Description และ Focus Keyword ตามด้านบน\n';
+      wp += '3. กรอก SEO Title, Meta Description และ Focus Keyword\n';
       wp += '4. กด Update / Publish';
       document.getElementById('wpCode').textContent = wp;
       document.getElementById('wpBox').style.display = 'block';
       navigator.clipboard.writeText(wp).then(function() {
-        var btns = document.querySelectorAll('.copy-btn');
-        btns[1].textContent = '✅ Copied!';
-        setTimeout(function(){ btns[1].textContent = '🔷 Copy สำหรับ WordPress (Yoast / RankMath)'; }, 2000);
+        var btn = document.querySelectorAll('.copy-btn')[1];
+        btn.textContent = '✅ Copied!';
+        setTimeout(function(){ btn.textContent = '🔷 Copy สำหรับ WordPress'; }, 2000);
       });
     }
   </script>
