@@ -86,7 +86,7 @@
 
     /* ── CARD ── */
     .card { background:var(--surface); border:1px solid var(--border2); border-radius:var(--r-lg); overflow:hidden; }
-    .card-head { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+    .card-head { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:center; gap:8px; }
     .card-head-icon { font-size:1rem; }
     .card-head-title { font-size:0.9rem; font-weight:700; color:var(--blue); }
     .card-body { padding:20px; }
@@ -94,7 +94,7 @@
     /* ── FORM ── */
     .fg { margin-bottom:14px; }
     .fg:last-child { margin-bottom:0; }
-    .fg label { display:block; font-size:0.8rem; font-weight:600; color:var(--muted); margin-bottom:5px; }
+    .fg label { display:block; font-size:0.8rem; font-weight:600; color:var(--muted); margin-bottom:5px; text-align:center; }
     .fg input, .fg textarea {
       width:100%; background:var(--surface2); border:1px solid var(--border);
       border-radius:var(--r-sm); padding:10px 13px; color:var(--text);
@@ -125,7 +125,8 @@
     .dot-r { width:10px; height:10px; border-radius:50%; background:#f87171; }
     .dot-y { width:10px; height:10px; border-radius:50%; background:#fbbf24; }
     .dot-g { width:10px; height:10px; border-radius:50%; background:#34d399; }
-    .preview-body { padding:16px 18px; background:var(--surface2); }
+    .preview-body { padding:20px 24px; background:var(--surface2); display:flex; align-items:center; justify-content:center; min-height:120px; }
+    .serp-inner { width:100%; max-width:420px; }
     .serp-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
     .serp-fav { width:20px; height:20px; background:var(--surface3); border-radius:50%; display:grid; place-items:center; font-size:10px; flex-shrink:0; }
     .serp-site { font-size:13px; color:var(--text); }
@@ -256,15 +257,17 @@
             <span>ตัวอย่างใน Google Search</span>
           </div>
           <div class="preview-body">
-            <div class="serp-row">
-              <div class="serp-fav">🌐</div>
-              <div>
-                <div class="serp-site" id="gpSite">ชื่อเว็บไซต์ของคุณ</div>
-                <div class="serp-url"  id="gpUrl">https://www.yoursite.co.th</div>
+            <div class="serp-inner">
+              <div class="serp-row">
+                <div class="serp-fav">🌐</div>
+                <div>
+                  <div class="serp-site" id="gpSite">ชื่อเว็บไซต์ของคุณ</div>
+                  <div class="serp-url"  id="gpUrl">https://www.yoursite.co.th</div>
+                </div>
               </div>
+              <div class="serp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
+              <div class="serp-desc"  id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
             </div>
-            <div class="serp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
-            <div class="serp-desc"  id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
           </div>
         </div>
 
