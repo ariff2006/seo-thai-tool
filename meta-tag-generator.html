@@ -21,23 +21,17 @@
       --muted: #64748b;
       --dim: #94a3b8;
       --border: #e2e8f0;
-      --border-accent: rgba(14,165,233,0.3);
+      --border-accent: rgba(14,165,233,0.35);
       --green: #16a34a;
       --amber: #d97706;
       --red: #dc2626;
       --font: 'Sarabun', sans-serif;
       --mono: 'Space Mono', monospace;
+      --header-h: 60px;
     }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
@@ -49,18 +43,19 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* HEADER */
+    /* ── HEADER ── */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 16px 32px;
+      height: var(--header-h);
+      padding: 0 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
     }
 
     .logo {
@@ -70,88 +65,96 @@
       text-decoration: none;
       color: var(--text);
       font-family: var(--mono);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
     }
-
-    .logo span:last-child {
-      color: var(--blue);
-    }
+    .logo .accent { color: var(--blue-dark); }
 
     .badge {
-      background: rgba(14,165,233,0.1);
-      border: 1px solid var(--border-accent);
-      color: var(--blue-dark);
-      padding: 4px 12px;
+      background: var(--blue-dark);
+      color: #fff;
+      padding: 3px 12px;
       border-radius: 99px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
-    /* HERO SECTION */
+    /* ── HERO ── */
     .hero {
       text-align: center;
-      padding: 60px 20px 40px;
-      position: relative;
-      z-index: 1;
+      padding: 44px 20px 28px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: rgba(2,132,199,0.08);
+      color: var(--blue-dark);
+      border: 1px solid rgba(2,132,199,0.2);
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      margin-bottom: 16px;
     }
 
     .hero h1 {
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
       font-weight: 900;
-      color: var(--text);
-      margin-bottom: 16px;
       line-height: 1.1;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero p {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--muted);
-      margin-bottom: 32px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 520px;
+      margin: 0 auto 28px;
     }
 
-    /* TOOL TABS */
+    /* ── TOOL TABS ── */
     .tool-tabs {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 40px;
     }
 
     .tool-tab {
       background: var(--surface);
       border: 1px solid var(--border);
       color: var(--muted);
-      padding: 8px 16px;
+      padding: 7px 18px;
       border-radius: 6px;
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 600;
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
 
     .tool-tab:hover {
       border-color: var(--blue-dark);
-      color: var(--blue);
-    }
-
-    .tool-tab.active {
-      background: rgba(14,165,233,0.1);
-      border-color: var(--border-accent);
       color: var(--blue-dark);
     }
 
-    /* MAIN LAYOUT */
+    .tool-tab.active {
+      background: var(--blue-dark);
+      border-color: var(--blue-dark);
+      color: #fff;
+    }
+
+    /* ── LAYOUT ── */
     .wrap {
-      max-width: 1200px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 0 20px 40px;
-      position: relative;
-      z-index: 1;
+      padding: 28px 20px 56px;
     }
 
     .grid {
@@ -161,272 +164,278 @@
       align-items: start;
     }
 
-    @media(max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    @media(max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      .preview-col { position: static !important; }
     }
 
-    /* CARD */
+    /* ── LEFT: FORM CARD ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     }
 
     .card-head {
-      padding: 16px 20px;
+      padding: 14px 20px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 700;
       color: var(--text);
+      background: var(--surface);
     }
 
-    .card-head-icon {
-      font-size: 1.1rem;
+    .card-head svg {
+      color: var(--blue-dark);
+      flex-shrink: 0;
     }
 
-    .card-body {
-      padding: 24px;
-    }
+    .card-body { padding: 22px; }
 
-    /* FORM */
-    .fg {
-      margin-bottom: 16px;
-    }
-
-    .fg:last-child {
-      margin-bottom: 0;
-    }
+    .fg { margin-bottom: 14px; }
+    .fg:last-child { margin-bottom: 0; }
 
     .fg label {
       display: block;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 6px;
+      color: var(--text);
+      margin-bottom: 5px;
     }
 
     .fg input,
     .fg textarea {
       width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
       border-radius: 8px;
-      padding: 11px 14px;
+      padding: 10px 13px;
       color: var(--text);
       font-family: var(--font);
-      font-size: 1rem;
+      font-size: 0.97rem;
       outline: none;
-      transition: border 0.2s, box-shadow 0.2s;
+      transition: border 0.18s, box-shadow 0.18s;
     }
 
     .fg input:focus,
     .fg textarea:focus {
       border-color: var(--blue-dark);
-      box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+      box-shadow: 0 0 0 3px rgba(2,132,199,0.12);
+      background: #fff;
     }
 
     .fg textarea {
-      min-height: 70px;
+      min-height: 72px;
       resize: vertical;
     }
 
-    .hint {
-      font-size: 0.82rem;
-      color: var(--dim);
-      margin-top: 4px;
-    }
-
-    .hint.warn {
-      color: var(--amber);
-    }
-
-    .hint.bad {
-      color: var(--red);
-    }
-
-    .hint.ok {
-      color: var(--green);
-    }
+    .hint { font-size: 0.8rem; color: var(--dim); margin-top: 4px; }
+    .hint.warn { color: var(--amber); }
+    .hint.bad  { color: var(--red); }
+    .hint.ok   { color: var(--green); }
 
     .row2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
-
-    @media(max-width: 480px) {
-      .row2 {
-        grid-template-columns: 1fr;
-      }
-    }
+    @media(max-width: 480px) { .row2 { grid-template-columns: 1fr; } }
 
     .gen-btn {
       width: 100%;
-      background: linear-gradient(135deg, var(--blue-dark), var(--teal));
+      background: var(--blue-dark);
       color: #fff;
-      font-weight: 800;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1rem;
       border: none;
       border-radius: 8px;
       padding: 13px;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 20px rgba(14,165,233,0.35);
-      margin-top: 8px;
+      transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+      box-shadow: 0 3px 14px rgba(2,132,199,0.3);
+      margin-top: 6px;
+      letter-spacing: 0.02em;
     }
 
     .gen-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(14,165,233,0.45);
+      background: #0369a1;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(2,132,199,0.38);
     }
 
-    /* PREVIEW CARD */
-    .preview-card {
+    /* ── RIGHT: STICKY PREVIEW COLUMN ── */
+    .preview-col {
+      position: sticky;
+      top: calc(var(--header-h) + 16px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── PREVIEW CARDS SHARED ── */
+    .prev-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     }
 
-    .preview-head {
-      padding: 12px 18px;
+    .prev-head {
+      padding: 10px 16px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
+      font-weight: 600;
       color: var(--muted);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
-    .dot-row {
-      display: flex;
-      gap: 5px;
-    }
+    .dot-row { display: flex; gap: 5px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot-r { background: #f87171; }
+    .dot-y { background: #fbbf24; }
+    .dot-g { background: #34d399; }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .dot-r {
-      background: #f87171;
-    }
-
-    .dot-y {
-      background: #fbbf24;
-    }
-
-    .dot-g {
-      background: #34d399;
-    }
-
-    .preview-body {
-      padding: 20px 24px;
-      background: var(--surface2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 160px;
-    }
-
-    .serp-inner {
-      width: 100%;
-      max-width: 400px;
+    /* ── GOOGLE SERP PREVIEW ── */
+    .serp-body {
+      padding: 20px 22px;
+      background: #fff;
     }
 
     .serp-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .serp-fav {
-      width: 20px;
-      height: 20px;
+      width: 18px; height: 18px;
       background: var(--surface3);
       border-radius: 50%;
       display: grid;
       place-items: center;
-      font-size: 10px;
       flex-shrink: 0;
+      overflow: hidden;
     }
+    .serp-fav svg { width: 10px; height: 10px; color: var(--muted); }
 
-    .serp-site {
-      font-size: 15px;
-      color: var(--text);
-    }
-
-    .serp-url {
-      font-size: 13px;
-      color: var(--muted);
-    }
+    .serp-site { font-size: 14px; color: #202124; font-family: Arial, sans-serif; }
+    .serp-url  { font-size: 12px; color: #4d5f73; font-family: Arial, sans-serif; }
 
     .serp-title {
-      font-size: 20px;
-      color: #1a73e8;
+      font-size: 19px;
+      color: #1a0dab;
       font-family: Arial, sans-serif;
       word-break: break-word;
-      margin-bottom: 6px;
-      line-height: 1.35;
+      margin-bottom: 4px;
+      line-height: 1.3;
       cursor: pointer;
     }
-
-    .serp-title:hover {
-      text-decoration: underline;
-    }
+    .serp-title:hover { text-decoration: underline; }
 
     .serp-desc {
-      font-size: 15px;
+      font-size: 14px;
       color: #4d5f73;
       font-family: Arial, sans-serif;
       line-height: 1.5;
     }
 
-    /* OUTPUT CODE */
+    /* ── SOCIAL OG PREVIEW ── */
+    .og-body { padding: 0; background: #fff; }
+
+    .og-img-placeholder {
+      background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dim);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .og-img-placeholder svg { margin-right: 6px; }
+
+    .og-text {
+      padding: 12px 16px 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .og-domain {
+      font-size: 0.72rem;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+      font-family: Arial, sans-serif;
+    }
+
+    .og-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1c1e21;
+      line-height: 1.3;
+      margin-bottom: 3px;
+      font-family: Arial, sans-serif;
+    }
+
+    .og-desc {
+      font-size: 0.8rem;
+      color: #606770;
+      line-height: 1.4;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ── OUTPUT CODE ── */
     .out-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       display: none;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     }
 
     .out-head {
       padding: 12px 18px;
       border-bottom: 1px solid var(--border);
       font-size: 0.8rem;
+      font-weight: 600;
       color: var(--muted);
       display: flex;
       align-items: center;
       gap: 6px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
-    .out-body {
-      padding: 16px 18px;
-    }
+    .out-body { padding: 16px 18px; }
 
     .out-body pre {
       font-family: var(--mono);
-      font-size: 0.73rem;
-      color: #7dd3fc;
-      background: var(--surface3);
+      font-size: 0.72rem;
+      color: #334155;
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 14px;
       white-space: pre-wrap;
       word-break: break-all;
-      max-height: 190px;
+      max-height: 200px;
       overflow-y: auto;
+      line-height: 1.6;
     }
 
     .btn-row {
@@ -437,132 +446,118 @@
     }
 
     .obtn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
+      background: var(--surface);
+      border: 1.5px solid var(--border);
       color: var(--text);
-      border-radius: 8px;
-      padding: 8px 16px;
+      border-radius: 7px;
+      padding: 7px 16px;
       cursor: pointer;
       font-size: 0.82rem;
+      font-weight: 600;
       font-family: var(--font);
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
-
     .obtn:hover {
       border-color: var(--blue-dark);
-      color: var(--blue);
+      color: var(--blue-dark);
+      background: rgba(2,132,199,0.04);
     }
-
     .obtn.wp {
       border-color: var(--border-accent);
-      color: var(--blue);
+      color: var(--blue-dark);
     }
 
     .wp-box {
-      background: var(--surface3);
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px;
       margin-top: 10px;
       display: none;
     }
-
     .wp-box pre {
       font-family: var(--mono);
-      font-size: 0.73rem;
-      color: #7dd3fc;
+      font-size: 0.72rem;
+      color: #334155;
       white-space: pre-wrap;
       word-break: break-all;
+      line-height: 1.6;
     }
 
-    /* CTA CARD */
-    .cta-card {
-      background: linear-gradient(135deg, #e8f4fd 0%, #dbeeff 100%);
-      border: 1px solid rgba(14,165,233,0.2);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-      border-radius: 12px;
-      padding: 24px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    /* ── TIP CARD (replaces CTA ad) ── */
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     }
-
-    .cta-card::before {
-      content: '';
-      position: absolute;
-      top: -30px;
-      right: -30px;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(56,189,248,0.1), transparent 70%);
-    }
-
-    .cta-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-card p {
-      color: var(--muted);
+    .tip-card h4 {
       font-size: 0.82rem;
-      margin-bottom: 16px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--blue-dark), var(--teal));
-      color: #fff;
       font-weight: 700;
-      padding: 9px 22px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 0.88rem;
-      box-shadow: 0 4px 16px rgba(14,165,233,0.3);
-      position: relative;
-      z-index: 1;
-      transition: all 0.2s;
+      color: var(--blue-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
     }
-
-    .cta-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(14,165,233,0.4);
+    .tip-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tip-card li {
+      font-size: 0.83rem;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+    .tip-card li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-dark);
+      flex-shrink: 0;
+      margin-top: 5px;
     }
   </style>
 </head>
 <body>
+
   <header>
     <a href="index.html" class="logo">
-      <span>◈</span>
-      SEO<span>ไทย</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      SEO<span class="accent">ไทย</span>
     </a>
     <span class="badge">Free Tool</span>
   </header>
 
   <div class="hero">
-    <h1>🏷️ Meta Tag Generator</h1>
+    <div class="hero-label">SEO Tool</div>
+    <h1>Meta Tag Generator</h1>
     <p>กรอกข้อมูลเว็บไซต์ของคุณ แล้วรับ Meta Tag HTML พร้อมใช้งาน</p>
     <div class="tool-tabs">
-      <a href="meta-tag-generator.html" class="tool-tab active">🏷️ Meta Tag Generator</a>
-      <a href="title-checker.html" class="tool-tab">✅ Title Checker</a>
-      <a href="keyword-density.html" class="tool-tab">📊 Keyword Density</a>
+      <a href="meta-tag-generator.html" class="tool-tab active">Meta Tag Generator</a>
+      <a href="title-checker.html" class="tool-tab">Title Checker</a>
+      <a href="keyword-density.html" class="tool-tab">Keyword Density</a>
     </div>
   </div>
 
   <div class="wrap">
     <div class="grid">
-      <!-- LEFT COLUMN: FORM -->
+
+      <!-- LEFT: FORM -->
       <div>
         <div class="card">
           <div class="card-head">
-            <span class="card-head-icon">📝</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             <span>ข้อมูลเว็บไซต์</span>
           </div>
           <div class="card-body">
+
             <div class="fg">
               <label>ชื่อเว็บไซต์ / Page Title *</label>
               <input type="text" id="pageTitle" placeholder="เช่น ร้านอาหารไทย อร่อย กรุงเทพ | ชื่อร้าน"
@@ -578,7 +573,7 @@
             </div>
 
             <div class="fg">
-              <label>Keywords (คั่นด้วย comma (,))</label>
+              <label>Keywords <span style="font-weight:400;color:var(--dim)">(คั่นด้วย comma)</span></label>
               <input type="text" id="pageKeywords" placeholder="เช่น ร้านอาหารไทย, อาหารไทย กรุงเทพ" />
             </div>
 
@@ -594,64 +589,92 @@
             </div>
 
             <div class="fg">
-              <label>OG Image URL (รูปแชร์โซเชียล)</label>
-              <input type="text" id="ogImage" placeholder="https://www.yoursite.co.th/og-image.jpg" />
+              <label>OG Image URL <span style="font-weight:400;color:var(--dim)">(รูปแชร์โซเชียล)</span></label>
+              <input type="text" id="ogImage" placeholder="https://www.yoursite.co.th/og-image.jpg" oninput="liveUpdate()" />
             </div>
 
-            <button class="gen-btn" onclick="generate()">✨ สร้าง Meta Tag</button>
+            <button class="gen-btn" onclick="generate()">สร้าง Meta Tag</button>
+          </div>
+        </div>
+
+        <!-- Output Code (under form on mobile, stays left) -->
+        <div class="out-card" id="outCard" style="margin-top:16px;">
+          <div class="out-head">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            โค้ด HTML — วางใน &lt;head&gt;
+          </div>
+          <div class="out-body">
+            <pre id="outputCode"></pre>
+            <div class="btn-row">
+              <button class="obtn" onclick="copyHTML()">Copy HTML</button>
+              <button class="obtn wp" onclick="copyWP()">Copy สำหรับ WordPress</button>
+            </div>
+            <div class="wp-box" id="wpBox">
+              <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;font-weight:600;">กรอกใน Yoast SEO / RankMath:</div>
+              <pre id="wpCode"></pre>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT COLUMN: PREVIEW + OUTPUT + CTA -->
-      <div>
+      <!-- RIGHT: STICKY PREVIEW COLUMN -->
+      <div class="preview-col">
+
         <!-- Google SERP Preview -->
-        <div class="preview-card">
-          <div class="preview-head">
+        <div class="prev-card">
+          <div class="prev-head">
             <div class="dot-row">
               <div class="dot dot-r"></div>
               <div class="dot dot-y"></div>
               <div class="dot dot-g"></div>
             </div>
-            <span>ตัวอย่างใน Google Search</span>
+            Google Search Preview
           </div>
-          <div class="preview-body">
-            <div class="serp-inner">
-              <div class="serp-row">
-                <div class="serp-fav">🌐</div>
-                <div>
-                  <div class="serp-site" id="gpSite">ชื่อเว็บไซต์ของคุณ</div>
-                  <div class="serp-url" id="gpUrl">https://www.yoursite.co.th</div>
-                </div>
+          <div class="serp-body">
+            <div class="serp-row">
+              <div class="serp-fav">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               </div>
-              <div class="serp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
-              <div class="serp-desc" id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
+              <div>
+                <div class="serp-site" id="gpSite">ชื่อเว็บไซต์ของคุณ</div>
+                <div class="serp-url" id="gpUrl">https://www.yoursite.co.th</div>
+              </div>
+            </div>
+            <div class="serp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
+            <div class="serp-desc" id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
+          </div>
+        </div>
+
+        <!-- Social / OG Preview -->
+        <div class="prev-card">
+          <div class="prev-head">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook / Social Preview
+          </div>
+          <div class="og-body">
+            <div class="og-img-placeholder" id="ogImgArea">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              OG Image
+            </div>
+            <div class="og-text">
+              <div class="og-domain" id="ogDomain">YOURSITE.CO.TH</div>
+              <div class="og-title" id="ogTitle">ชื่อเว็บไซต์ของคุณ</div>
+              <div class="og-desc" id="ogDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
             </div>
           </div>
         </div>
 
-        <!-- Output Code -->
-        <div class="out-card" id="outCard">
-          <div class="out-head">📋 โค้ด HTML — วางใน &lt;head&gt;</div>
-          <div class="out-body">
-            <pre id="outputCode"></pre>
-            <div class="btn-row">
-              <button class="obtn" onclick="copyHTML()">📋 Copy HTML</button>
-              <button class="obtn wp" onclick="copyWP()">🔷 Copy สำหรับ WordPress</button>
-            </div>
-            <div class="wp-box" id="wpBox">
-              <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">🔷 กรอกใน Yoast SEO / RankMath:</div>
-              <pre id="wpCode"></pre>
-            </div>
-          </div>
+        <!-- Tips -->
+        <div class="tip-card">
+          <h4>เคล็ดลับ Meta Tag</h4>
+          <ul>
+            <li>Title ควรมี Keyword หลักอยู่ในช่วงแรก</li>
+            <li>Description ที่ดีช่วยเพิ่ม CTR แม้ไม่ส่งผลอันดับโดยตรง</li>
+            <li>OG Image ขนาดแนะนำ 1200×630 px สำหรับ Facebook</li>
+            <li>Title ยาวเกิน 60 ตัวอักษรจะถูกตัดใน Google</li>
+          </ul>
         </div>
 
-        <!-- CTA -->
-        <div class="cta-card">
-          <h3>🔍 วิเคราะห์ SEO เว็บคุณแบบละเอียด?</h3>
-          <p>ใช้ AI ตรวจ On-Page SEO ฟรี ไม่ต้องสมัครสมาชิก</p>
-          <a href="index.html" class="cta-btn">→ วิเคราะห์ SEO ฟรี</a>
-        </div>
       </div>
     </div>
   </div>
@@ -668,11 +691,28 @@
       var title = document.getElementById('pageTitle').value || 'ชื่อเว็บไซต์ของคุณ';
       var desc  = document.getElementById('pageDesc').value  || 'คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...';
       var url   = document.getElementById('pageUrl').value   || 'https://www.yoursite.co.th';
+      var ogImg = document.getElementById('ogImage').value   || '';
       var site  = title.includes('|') ? title.split('|').pop().trim() : title;
+
+      // Google preview
       document.getElementById('gpSite').textContent  = site.slice(0, 40);
       document.getElementById('gpUrl').textContent   = url;
       document.getElementById('gpTitle').textContent = title.slice(0, 60) + (title.length > 60 ? '...' : '');
       document.getElementById('gpDesc').textContent  = desc.slice(0, 160) + (desc.length > 160 ? '...' : '');
+
+      // Social / OG preview
+      var domain = 'YOURSITE.CO.TH';
+      try { domain = new URL(url).hostname.toUpperCase(); } catch(e) {}
+      document.getElementById('ogDomain').textContent = domain;
+      document.getElementById('ogTitle').textContent  = title.slice(0, 88) + (title.length > 88 ? '...' : '');
+      document.getElementById('ogDesc').textContent   = desc.slice(0, 110) + (desc.length > 110 ? '...' : '');
+
+      var imgArea = document.getElementById('ogImgArea');
+      if (ogImg) {
+        imgArea.innerHTML = '<img src="' + ogImg + '" style="width:100%;height:140px;object-fit:cover;display:block;" onerror="this.parentElement.innerHTML=\'<svg width=16 height=16 viewBox=\\\"0 0 24 24\\\" fill=\\\"none\\\" stroke=\\\"currentColor\\\" stroke-width=\\\"2\\\" stroke-linecap=\\\"round\\\" stroke-linejoin=\\\"round\\\"><rect x=\\\"3\\\" y=\\\"3\\\" width=\\\"18\\\" height=\\\"18\\\" rx=\\\"2\\\"/><circle cx=\\\"8.5\\\" cy=\\\"8.5\\\" r=\\\"1.5\\\"/><polyline points=\\\"21 15 16 10 5 21\\\"/></svg> OG Image\'" />';
+      } else {
+        imgArea.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> OG Image';
+      }
     }
 
     function generate() {
@@ -708,14 +748,15 @@
       document.getElementById('outputCode').textContent = c;
       document.getElementById('outCard').style.display = 'block';
       liveUpdate();
+      setTimeout(function(){ document.getElementById('outCard').scrollIntoView({behavior:'smooth', block:'nearest'}); }, 100);
     }
 
     function copyHTML() {
       var c = document.getElementById('outputCode').textContent;
       navigator.clipboard.writeText(c).then(function() {
         var b = document.querySelectorAll('.obtn')[0];
-        b.textContent = '✅ Copied!';
-        setTimeout(function(){ b.textContent = '📋 Copy HTML'; }, 2000);
+        b.textContent = 'Copied!';
+        setTimeout(function(){ b.textContent = 'Copy HTML'; }, 2000);
       });
     }
 
@@ -732,8 +773,8 @@
       document.getElementById('wpBox').style.display = 'block';
       navigator.clipboard.writeText(t).then(function() {
         var b = document.querySelectorAll('.obtn')[1];
-        b.textContent = '✅ Copied!';
-        setTimeout(function(){ b.textContent = '🔷 Copy สำหรับ WordPress'; }, 2000);
+        b.textContent = 'Copied!';
+        setTimeout(function(){ b.textContent = 'Copy สำหรับ WordPress'; }, 2000);
       });
     }
   </script>
