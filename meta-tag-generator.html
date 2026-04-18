@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     /* ── Layout ── */
-    .page-wrap { max-width:1100px; margin:0 auto; padding:0 20px 40px; position:relative; z-index:1; }
+    .page-wrap { max-width:1140px; margin:0 auto; padding:0 24px 40px; position:relative; z-index:1; }
     .tool-hero { text-align:center; padding:28px 20px 16px; position:relative; z-index:1; }
     .tool-hero h1 { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:800; margin-bottom:6px; }
     .tool-hero p  { color:var(--text-muted); font-size:0.95rem; }
@@ -22,9 +22,11 @@
     .tool-chip  { background:var(--surface-2); border:1px solid var(--border-2); border-radius:20px; padding:5px 14px; font-size:0.82rem; color:var(--text-muted); text-decoration:none; transition:.2s; }
     .tool-chip:hover,.tool-chip.active { border-color:var(--gold); color:var(--gold); }
 
-    /* ── Two-column grid ── */
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
-    @media(max-width:700px){ .two-col { grid-template-columns:1fr; } }
+    /* ── Two-column flex ── */
+    .two-col { display:flex; gap:20px; align-items:flex-start; width:100%; }
+    .two-col .col-left  { flex:0 0 48%; min-width:0; }
+    .two-col .col-right { flex:1; min-width:0; }
+    @media(max-width:780px){ .two-col { flex-direction:column; } .two-col .col-left, .two-col .col-right { flex:none; width:100%; } }
 
     /* ── Card ── */
     .card { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:22px; }
@@ -115,6 +117,7 @@
     <div class="two-col">
 
       <!-- LEFT: Form -->
+      <div class="col-left">
       <div class="card">
         <div class="card-title">📝 ข้อมูลเว็บไซต์</div>
 
@@ -154,7 +157,10 @@
         <button class="gen-btn" onclick="generateMeta()">✨ สร้าง Meta Tag</button>
       </div>
 
+      </div><!-- /col-left -->
+
       <!-- RIGHT: Preview + Output -->
+      <div class="col-right">
       <div class="right-panel">
 
         <div class="gp-wrap">
@@ -185,9 +191,10 @@
           <a href="index.html" class="cta-link" style="font-size:0.88rem;padding:9px 20px;">→ วิเคราะห์ SEO ฟรี</a>
         </div>
 
-      </div>
-    </div>
-  </div>
+      </div><!-- /right-panel -->
+      </div><!-- /col-right -->
+    </div><!-- /two-col -->
+  </div><!-- /page-wrap -->
 
   <script>
     function checkLen(inputId, countId, min, max) {
