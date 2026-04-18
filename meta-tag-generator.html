@@ -8,288 +8,369 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
   <style>
-    /* ── Layout ── */
-    .page-wrap { max-width:1140px; margin:0 auto; padding:0 24px 40px; position:relative; z-index:1; }
-    .tool-hero { text-align:center; padding:28px 20px 16px; position:relative; z-index:1; }
-    .tool-hero h1 { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:800; margin-bottom:6px; }
-    .tool-hero p  { color:var(--text-muted); font-size:0.95rem; }
-    .breadcrumb   { text-align:center; padding:12px 20px 0; position:relative; z-index:1; }
-    .breadcrumb a { color:var(--text-muted); text-decoration:none; font-size:0.88rem; }
-    .breadcrumb a:hover { color:var(--gold); }
-    .tools-nav  { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; padding:10px 20px 16px; position:relative; z-index:1; }
-    .tool-chip  { background:var(--surface-2); border:1px solid var(--border-2); border-radius:20px; padding:5px 14px; font-size:0.82rem; color:var(--text-muted); text-decoration:none; transition:.2s; }
-    .tool-chip:hover,.tool-chip.active { border-color:var(--gold); color:var(--gold); }
-
-    /* ── Two-column flex ── */
-    .two-col { display:flex; gap:20px; align-items:flex-start; width:100%; }
-    .two-col .col-left  { flex:0 0 48%; min-width:0; }
-    .two-col .col-right { flex:1; min-width:0; }
-    @media(max-width:780px){ .two-col { flex-direction:column; } .two-col .col-left, .two-col .col-right { flex:none; width:100%; } }
-
-    /* ── Card ── */
-    .card { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:22px; }
-    .card-title { font-size:0.95rem; font-weight:700; color:var(--gold); margin-bottom:14px; }
-
-    /* ── Form ── */
-    .fg { margin-bottom:12px; }
-    .fg label { display:block; font-size:0.82rem; font-weight:600; color:var(--text-muted); margin-bottom:4px; }
-    .fg input, .fg textarea {
-      width:100%; background:var(--surface-2); border:1px solid var(--border-2);
-      border-radius:var(--radius-sm); padding:9px 12px; color:var(--text);
-      font-family:var(--font-body); font-size:0.88rem; outline:none; transition:border .2s; box-sizing:border-box;
+    :root {
+      --bg:        #070d1a;
+      --bg2:       #0a1628;
+      --surface:   #0f1e38;
+      --surface2:  #162544;
+      --surface3:  #1c2f52;
+      --blue:      #38bdf8;
+      --blue-dim:  #0ea5e9;
+      --blue-deep: #0369a1;
+      --blue-glow: rgba(56,189,248,0.15);
+      --teal:      #22d3ee;
+      --text:      #e2eaf8;
+      --muted:     #6b87b4;
+      --dim:       #3d567a;
+      --border:    rgba(56,189,248,0.12);
+      --border2:   rgba(56,189,248,0.22);
+      --green:     #34d399;
+      --amber:     #fbbf24;
+      --red:       #f87171;
+      --r-sm:      8px;
+      --r:         14px;
+      --r-lg:      20px;
+      --font:      'Sarabun', sans-serif;
+      --mono:      'Space Mono', monospace;
     }
-    .fg input:focus, .fg textarea:focus { border-color:var(--gold); }
-    .fg textarea { min-height:68px; resize:vertical; }
-    .char-count { font-size:0.72rem; color:var(--text-dim); margin-top:3px; }
-    .char-count.warn { color:var(--amber); }
-    .char-count.bad  { color:var(--red); }
-    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    @media(max-width:500px){ .row2 { grid-template-columns:1fr; } }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:var(--font); font-size:16px; line-height:1.6; min-height:100vh; -webkit-font-smoothing:antialiased; }
+
+    /* ── BG ── */
+    .bg-mesh {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(14,165,233,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(34,211,238,0.08) 0%, transparent 60%),
+        linear-gradient(rgba(56,189,248,0.02) 1px, transparent 1px) 0 0 / 56px 56px,
+        linear-gradient(90deg, rgba(56,189,248,0.02) 1px, transparent 1px) 0 0 / 56px 56px;
+    }
+
+    /* ── HEADER ── */
+    .hdr {
+      position:relative; z-index:10;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 32px;
+      border-bottom:1px solid var(--border);
+      background:rgba(7,13,26,0.8); backdrop-filter:blur(12px);
+    }
+    .logo { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:1.15rem; font-weight:700; text-decoration:none; color:var(--text); }
+    .logo-mark { color:var(--blue); font-size:1.3rem; }
+    .logo-th { color:var(--blue); }
+    .badge { background:var(--blue-glow); border:1px solid var(--border2); color:var(--blue); padding:4px 12px; border-radius:99px; font-size:0.75rem; font-weight:600; }
+
+    /* ── NAV ── */
+    .top-nav { display:flex; align-items:center; justify-content:space-between; padding:12px 32px; position:relative; z-index:1; border-bottom:1px solid var(--border); }
+    .back-link { color:var(--muted); text-decoration:none; font-size:0.85rem; transition:.2s; }
+    .back-link:hover { color:var(--blue); }
+    .tool-tabs { display:flex; gap:6px; }
+    .tab { background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; transition:.2s; }
+    .tab:hover { border-color:var(--blue-dim); color:var(--blue); }
+    .tab.active { background:var(--blue-glow); border-color:var(--border2); color:var(--blue); }
+
+    /* ── HERO ── */
+    .hero { text-align:center; padding:32px 20px 24px; position:relative; z-index:1; }
+    .hero-eyebrow { display:inline-flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; font-family:var(--mono); margin-bottom:12px; }
+    .pulse { width:6px; height:6px; border-radius:50%; background:var(--blue); animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .hero h1 { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; margin-bottom:8px; }
+    .hero h1 span { background:linear-gradient(135deg,var(--blue),var(--teal)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero p { color:var(--muted); font-size:0.95rem; }
+
+    /* ── MAIN LAYOUT ── */
+    .wrap { max-width:1120px; margin:0 auto; padding:0 24px 48px; position:relative; z-index:1; }
+    .grid { display:flex; gap:20px; align-items:flex-start; }
+    .col-l { flex:0 0 50%; min-width:0; }
+    .col-r { flex:1; min-width:0; display:flex; flex-direction:column; gap:16px; }
+    @media(max-width:800px){ .grid{flex-direction:column} .col-l,.col-r{flex:none;width:100%} }
+
+    /* ── CARD ── */
+    .card { background:var(--surface); border:1px solid var(--border2); border-radius:var(--r-lg); overflow:hidden; }
+    .card-head { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+    .card-head-icon { font-size:1rem; }
+    .card-head-title { font-size:0.9rem; font-weight:700; color:var(--blue); }
+    .card-body { padding:20px; }
+
+    /* ── FORM ── */
+    .fg { margin-bottom:14px; }
+    .fg:last-child { margin-bottom:0; }
+    .fg label { display:block; font-size:0.8rem; font-weight:600; color:var(--muted); margin-bottom:5px; }
+    .fg input, .fg textarea {
+      width:100%; background:var(--surface2); border:1px solid var(--border);
+      border-radius:var(--r-sm); padding:10px 13px; color:var(--text);
+      font-family:var(--font); font-size:0.88rem; outline:none; transition:border .2s, box-shadow .2s;
+    }
+    .fg input:focus, .fg textarea:focus { border-color:var(--blue-dim); box-shadow:0 0 0 3px rgba(56,189,248,0.1); }
+    .fg textarea { min-height:70px; resize:vertical; }
+    .hint { font-size:0.7rem; color:var(--dim); margin-top:3px; }
+    .hint.warn { color:var(--amber); }
+    .hint.bad  { color:var(--red); }
+    .hint.ok   { color:var(--green); }
+    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media(max-width:480px){ .row2{grid-template-columns:1fr} }
 
     .gen-btn {
-      width:100%; background:linear-gradient(135deg,var(--gold),var(--gold-dim));
-      color:#0d0f1a; font-weight:800; font-size:0.95rem; border:none;
-      border-radius:var(--radius); padding:12px; cursor:pointer; transition:.2s; margin-top:4px;
+      width:100%; background:linear-gradient(135deg,var(--blue-dim),var(--teal));
+      color:#fff; font-weight:800; font-size:1rem; border:none;
+      border-radius:var(--r); padding:13px; cursor:pointer; transition:.2s;
+      box-shadow:0 4px 20px rgba(14,165,233,0.35); margin-top:4px;
     }
-    .gen-btn:hover { opacity:.9; transform:translateY(-1px); }
+    .gen-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(14,165,233,0.45); }
 
-    /* ── Right panel ── */
-    .right-panel { display:flex; flex-direction:column; gap:16px; }
+    /* ── PREVIEW ── */
+    .preview-card { background:var(--surface); border:1px solid var(--border2); border-radius:var(--r-lg); overflow:hidden; }
+    .preview-head { padding:12px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+    .preview-head span { font-size:0.78rem; color:var(--muted); }
+    .dot-row { display:flex; gap:5px; }
+    .dot-r { width:10px; height:10px; border-radius:50%; background:#f87171; }
+    .dot-y { width:10px; height:10px; border-radius:50%; background:#fbbf24; }
+    .dot-g { width:10px; height:10px; border-radius:50%; background:#34d399; }
+    .preview-body { padding:16px 18px; background:var(--surface2); }
+    .serp-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+    .serp-fav { width:20px; height:20px; background:var(--surface3); border-radius:50%; display:grid; place-items:center; font-size:10px; flex-shrink:0; }
+    .serp-site { font-size:13px; color:var(--text); }
+    .serp-url  { font-size:11px; color:var(--muted); }
+    .serp-title { font-size:17px; color:#60a5fa; font-family:Arial,sans-serif; word-break:break-word; margin-bottom:5px; line-height:1.35; cursor:pointer; }
+    .serp-title:hover { text-decoration:underline; }
+    .serp-desc  { font-size:13px; color:#94a3b8; font-family:Arial,sans-serif; line-height:1.5; }
 
-    /* Google preview */
-    .gp-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:20px; }
-    .gp-label { font-size:0.78rem; color:var(--text-muted); margin-bottom:12px; letter-spacing:.4px; }
-    .google-preview { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; }
-    .gp-site-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-    .gp-favicon { width:18px; height:18px; background:var(--surface-3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; }
-    .gp-site-name { font-size:13px; color:var(--text-muted); font-family:Arial,sans-serif; }
-    .gp-url-small { font-size:11px; color:var(--text-dim); font-family:Arial,sans-serif; }
-    .gp-title { font-size:17px; color:#8ab4f8; font-family:Arial,sans-serif; cursor:pointer; word-break:break-word; margin-bottom:4px; line-height:1.4; }
-    .gp-title:hover { text-decoration:underline; }
-    .gp-desc  { font-size:13px; color:#bdc1c6; font-family:Arial,sans-serif; line-height:1.5; }
-
-    /* Output */
-    .output-wrap { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:18px; display:none; }
-    .output-wrap pre { font-family:var(--font-mono); font-size:0.76rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; max-height:200px; overflow-y:auto; background:var(--surface-3); border-radius:var(--radius-sm); padding:12px; margin-top:8px; }
+    /* ── OUTPUT ── */
+    .out-card { background:var(--surface); border:1px solid var(--border2); border-radius:var(--r-lg); overflow:hidden; display:none; }
+    .out-head { padding:12px 18px; border-bottom:1px solid var(--border); font-size:0.8rem; color:var(--muted); display:flex; align-items:center; gap:6px; }
+    .out-body { padding:16px 18px; }
+    .out-body pre { font-family:var(--mono); font-size:0.73rem; color:#7dd3fc; background:var(--bg2); border-radius:var(--r-sm); padding:14px; white-space:pre-wrap; word-break:break-all; max-height:190px; overflow-y:auto; }
     .btn-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-    .copy-btn { background:var(--surface-2); border:1px solid var(--border-2); color:var(--text); border-radius:var(--radius-sm); padding:8px 16px; cursor:pointer; font-size:0.82rem; transition:.2s; }
-    .copy-btn:hover { border-color:var(--gold); color:var(--gold); }
-    .copy-btn.wp { border-color:rgba(245,200,66,.4); color:var(--gold); }
-    .wp-box { background:var(--surface-3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; margin-top:10px; display:none; }
-    .wp-box pre { font-family:var(--font-mono); font-size:0.76rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; }
+    .obtn { background:var(--surface2); border:1px solid var(--border); color:var(--text); border-radius:var(--r-sm); padding:8px 16px; cursor:pointer; font-size:0.82rem; font-family:var(--font); transition:.2s; }
+    .obtn:hover { border-color:var(--blue-dim); color:var(--blue); }
+    .obtn.wp { border-color:var(--border2); color:var(--blue); }
+    .wp-box { background:var(--bg2); border-radius:var(--r-sm); padding:12px; margin-top:10px; display:none; }
+    .wp-box pre { font-family:var(--mono); font-size:0.73rem; color:#7dd3fc; white-space:pre-wrap; word-break:break-all; }
 
-    /* CTA strip */
-    .cta-strip { background:var(--surface); border:1px solid rgba(245,200,66,.2); border-radius:var(--radius-lg); padding:18px 20px; text-align:center; }
-    .cta-strip h3 { font-size:0.95rem; font-weight:700; margin-bottom:5px; }
-    .cta-strip p  { color:var(--text-muted); font-size:0.82rem; margin-bottom:12px; }
-    .cta-link { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; padding:9px 22px; border-radius:var(--radius); text-decoration:none; font-size:0.88rem; }
+    /* ── CTA ── */
+    .cta-card {
+      background:linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+      border:1px solid var(--border2);
+      border-radius:var(--r-lg);
+      padding:20px; text-align:center;
+      position:relative; overflow:hidden;
+    }
+    .cta-card::before {
+      content:''; position:absolute; top:-30px; right:-30px;
+      width:120px; height:120px; border-radius:50%;
+      background:radial-gradient(circle, rgba(56,189,248,0.1), transparent 70%);
+    }
+    .cta-card h3 { font-size:0.95rem; font-weight:700; margin-bottom:5px; position:relative; }
+    .cta-card p  { color:var(--muted); font-size:0.82rem; margin-bottom:14px; position:relative; }
+    .cta-btn { display:inline-block; background:linear-gradient(135deg,var(--blue-dim),var(--teal)); color:#fff; font-weight:700; padding:9px 22px; border-radius:var(--r); text-decoration:none; font-size:0.88rem; box-shadow:0 4px 16px rgba(14,165,233,0.3); position:relative; transition:.2s; }
+    .cta-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(14,165,233,0.4); }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
+  <div class="bg-mesh"></div>
 
-  <header class="site-header">
-    <div class="logo">
-      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px;">
-        <span class="logo-icon">◈</span>
-        <span class="logo-text">SEO<span class="logo-thai">ไทย</span></span>
-      </a>
-    </div>
-    <nav class="header-nav"><span class="nav-badge">Free Tool</span></nav>
+  <header class="hdr">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">◈</span>
+      <span>SEO<span class="logo-th">ไทย</span></span>
+    </a>
+    <span class="badge">Free Tool</span>
   </header>
 
-  <div class="breadcrumb"><a href="index.html">← กลับหน้าหลัก</a></div>
+  <nav class="top-nav">
+    <a href="index.html" class="back-link">← กลับหน้าหลัก</a>
+    <div class="tool-tabs">
+      <a href="meta-tag-generator.html" class="tab active">🏷️ Meta Tag</a>
+      <a href="title-checker.html"      class="tab">✅ Title Checker</a>
+      <a href="keyword-density.html"    class="tab">📊 Keyword Density</a>
+    </div>
+  </nav>
 
-  <div class="tools-nav">
-    <a href="meta-tag-generator.html" class="tool-chip active">🏷️ Meta Tag Generator</a>
-    <a href="title-checker.html" class="tool-chip">✅ Title Checker</a>
-    <a href="keyword-density.html" class="tool-chip">📊 Keyword Density</a>
+  <div class="hero">
+    <div class="hero-eyebrow"><span class="pulse"></span> SEO Tool · ฟรี</div>
+    <h1>🏷️ Meta Tag <span>Generator</span></h1>
+    <p>กรอกข้อมูลเว็บไซต์ของคุณ แล้วรับโค้ด Meta Tag พร้อมใช้งานทันที</p>
   </div>
 
-  <div class="tool-hero">
-    <h1>🏷️ Meta Tag <span style="color:var(--gold)">Generator</span></h1>
-    <p>กรอกข้อมูลเว็บไซต์ของคุณ แล้วรับ Meta Tag HTML พร้อมใช้งาน</p>
-  </div>
+  <div class="wrap">
+    <div class="grid">
 
-  <div class="page-wrap">
-    <div class="two-col">
-
-      <!-- LEFT: Form -->
-      <div class="col-left">
-      <div class="card">
-        <div class="card-title">📝 ข้อมูลเว็บไซต์</div>
-
-        <div class="fg">
-          <label>ชื่อเว็บไซต์ / Page Title *</label>
-          <input type="text" id="pageTitle" placeholder="เช่น ร้านอาหารไทย อร่อย กรุงเทพ | ชื่อร้าน" oninput="updatePreview(); checkLen('pageTitle','titleCount',50,60)" />
-          <div class="char-count" id="titleCount">0 ตัวอักษร (แนะนำ 50–60)</div>
-        </div>
-
-        <div class="fg">
-          <label>คำอธิบายเว็บ / Meta Description *</label>
-          <textarea id="pageDesc" placeholder="อธิบายเว็บไซต์ของคุณสั้นๆ ให้คนอยากคลิก..." oninput="updatePreview(); checkLen('pageDesc','descCount',120,160)"></textarea>
-          <div class="char-count" id="descCount">0 ตัวอักษร (แนะนำ 120–160)</div>
-        </div>
-
-        <div class="fg">
-          <label>Keywords (คั่นด้วย comma (,))</label>
-          <input type="text" id="pageKeywords" placeholder="เช่น ร้านอาหารไทย, อาหารไทย กรุงเทพ" />
-        </div>
-
-        <div class="row2">
-          <div class="fg">
-            <label>URL เว็บไซต์</label>
-            <input type="text" id="pageUrl" placeholder="https://www.yoursite.co.th" oninput="updatePreview()" />
+      <!-- LEFT -->
+      <div class="col-l">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-head-icon">📝</span>
+            <span class="card-head-title">ข้อมูลเว็บไซต์</span>
           </div>
-          <div class="fg">
-            <label>ชื่อผู้เขียน / Author</label>
-            <input type="text" id="pageAuthor" placeholder="เช่น ทีม SEOไทย" />
-          </div>
-        </div>
+          <div class="card-body">
+            <div class="fg">
+              <label>ชื่อเว็บไซต์ / Page Title *</label>
+              <input type="text" id="pageTitle" placeholder="เช่น ร้านอาหารไทย อร่อย กรุงเทพ | ชื่อร้าน"
+                     oninput="liveUpdate(); checkLen('pageTitle','hintTitle',50,60)" />
+              <div class="hint" id="hintTitle">0 ตัวอักษร — แนะนำ 50–60</div>
+            </div>
 
-        <div class="fg">
-          <label>Open Graph Image URL (รูปแชร์โซเชียล)</label>
-          <input type="text" id="ogImage" placeholder="https://www.yoursite.co.th/og-image.jpg" />
-        </div>
+            <div class="fg">
+              <label>คำอธิบายเว็บ / Meta Description *</label>
+              <textarea id="pageDesc" placeholder="อธิบายเว็บไซต์ของคุณสั้นๆ ให้คนอยากคลิก..."
+                        oninput="liveUpdate(); checkLen('pageDesc','hintDesc',120,160)"></textarea>
+              <div class="hint" id="hintDesc">0 ตัวอักษร — แนะนำ 120–160</div>
+            </div>
 
-        <button class="gen-btn" onclick="generateMeta()">✨ สร้าง Meta Tag</button>
-      </div>
+            <div class="fg">
+              <label>Keywords (คั่นด้วย comma (,))</label>
+              <input type="text" id="pageKeywords" placeholder="เช่น ร้านอาหารไทย, อาหารไทย กรุงเทพ" />
+            </div>
 
-      </div><!-- /col-left -->
-
-      <!-- RIGHT: Preview + Output -->
-      <div class="col-right">
-      <div class="right-panel">
-
-        <div class="gp-wrap">
-          <div class="gp-label">👁️ ตัวอย่างใน Google Search</div>
-          <div class="google-preview">
-            <div class="gp-site-row">
-              <div class="gp-favicon">🌐</div>
-              <div>
-                <div class="gp-site-name" id="gpSiteName">ชื่อเว็บไซต์ของคุณ</div>
-                <div class="gp-url-small" id="gpUrl">https://www.yoursite.co.th</div>
+            <div class="row2">
+              <div class="fg">
+                <label>URL เว็บไซต์</label>
+                <input type="text" id="pageUrl" placeholder="https://www.yoursite.co.th" oninput="liveUpdate()" />
+              </div>
+              <div class="fg">
+                <label>ชื่อผู้เขียน / Author</label>
+                <input type="text" id="pageAuthor" placeholder="เช่น ทีม SEOไทย" />
               </div>
             </div>
-            <div class="gp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
-            <div class="gp-desc"  id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
+
+            <div class="fg">
+              <label>OG Image URL (รูปแชร์โซเชียล)</label>
+              <input type="text" id="ogImage" placeholder="https://www.yoursite.co.th/og-image.jpg" />
+            </div>
+
+            <button class="gen-btn" onclick="generate()">✨ สร้าง Meta Tag</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="col-r">
+
+        <!-- Google SERP Preview -->
+        <div class="preview-card">
+          <div class="preview-head">
+            <div class="dot-row"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+            <span>ตัวอย่างใน Google Search</span>
+          </div>
+          <div class="preview-body">
+            <div class="serp-row">
+              <div class="serp-fav">🌐</div>
+              <div>
+                <div class="serp-site" id="gpSite">ชื่อเว็บไซต์ของคุณ</div>
+                <div class="serp-url"  id="gpUrl">https://www.yoursite.co.th</div>
+              </div>
+            </div>
+            <div class="serp-title" id="gpTitle">ชื่อเว็บไซต์ของคุณ</div>
+            <div class="serp-desc"  id="gpDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
           </div>
         </div>
 
-        <div class="output-wrap" id="outputWrap">
-          <div class="gp-label">📋 โค้ด HTML — วางใน &lt;head&gt;</div>
-          <pre id="outputCode"></pre>
-          <div class="btn-row">
-            <button class="copy-btn" onclick="copyCode()">📋 Copy HTML</button>
-            <button class="copy-btn wp" onclick="copyWordpress()">🔷 WordPress</button>
-          </div>
-          <div class="wp-box" id="wpBox">
-            <div class="gp-label" style="margin-bottom:6px;">🔷 กรอกใน Yoast SEO / RankMath:</div>
-            <pre id="wpCode"></pre>
+        <!-- Output Code -->
+        <div class="out-card" id="outCard">
+          <div class="out-head">📋 โค้ด HTML — วางใน &lt;head&gt;</div>
+          <div class="out-body">
+            <pre id="outputCode"></pre>
+            <div class="btn-row">
+              <button class="obtn" onclick="copyHTML()">📋 Copy HTML</button>
+              <button class="obtn wp" onclick="copyWP()">🔷 Copy สำหรับ WordPress</button>
+            </div>
+            <div class="wp-box" id="wpBox">
+              <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">🔷 กรอกใน Yoast SEO / RankMath:</div>
+              <pre id="wpCode"></pre>
+            </div>
           </div>
         </div>
 
-        <div class="cta-strip">
-          <h3>🔍 วิเคราะห์ SEO แบบละเอียด?</h3>
-          <p>วิเคราะห์เว็บด้วย AI ฟรี ไม่ต้องสมัครสมาชิก</p>
-          <a href="index.html" class="cta-link">→ วิเคราะห์ SEO ฟรี</a>
+        <!-- CTA -->
+        <div class="cta-card">
+          <h3>🔍 วิเคราะห์ SEO เว็บคุณแบบละเอียด?</h3>
+          <p>ใช้ AI ตรวจ On-Page SEO ฟรี ไม่ต้องสมัครสมาชิก</p>
+          <a href="index.html" class="cta-btn">→ วิเคราะห์ SEO ฟรี</a>
         </div>
 
-      </div><!-- /right-panel -->
-      </div><!-- /col-right -->
-    </div><!-- /two-col -->
-  </div><!-- /page-wrap -->
+      </div>
+    </div>
+  </div>
 
   <script>
-    function checkLen(inputId, countId, min, max) {
-      var val = document.getElementById(inputId).value.length;
-      var el  = document.getElementById(countId);
-      el.textContent = val + ' ตัวอักษร (แนะนำ ' + min + '–' + max + ')';
-      el.className = 'char-count' + (val > max ? ' bad' : val < min && val > 0 ? ' warn' : '');
+    function checkLen(id, hintId, min, max) {
+      var v = document.getElementById(id).value.length;
+      var el = document.getElementById(hintId);
+      el.textContent = v + ' ตัวอักษร — แนะนำ ' + min + '–' + max;
+      el.className = 'hint' + (v > max ? ' bad' : v >= min ? ' ok' : v > 0 ? ' warn' : '');
     }
 
-    function updatePreview() {
+    function liveUpdate() {
       var title = document.getElementById('pageTitle').value || 'ชื่อเว็บไซต์ของคุณ';
       var desc  = document.getElementById('pageDesc').value  || 'คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...';
       var url   = document.getElementById('pageUrl').value   || 'https://www.yoursite.co.th';
-      var siteName = title.split('|').pop().trim() || title;
-      document.getElementById('gpTitle').textContent    = title.slice(0,60) + (title.length>60?'...':'');
-      document.getElementById('gpSiteName').textContent = siteName.slice(0,40);
-      document.getElementById('gpUrl').textContent      = url;
-      document.getElementById('gpDesc').textContent     = desc.slice(0,160) + (desc.length>160?'...':'');
+      var site  = title.includes('|') ? title.split('|').pop().trim() : title;
+      document.getElementById('gpSite').textContent  = site.slice(0, 40);
+      document.getElementById('gpUrl').textContent   = url;
+      document.getElementById('gpTitle').textContent = title.slice(0, 60) + (title.length > 60 ? '...' : '');
+      document.getElementById('gpDesc').textContent  = desc.slice(0, 160) + (desc.length > 160 ? '...' : '');
     }
 
-    function generateMeta() {
-      var title    = document.getElementById('pageTitle').value;
-      var desc     = document.getElementById('pageDesc').value;
-      var keywords = document.getElementById('pageKeywords').value;
-      var url      = document.getElementById('pageUrl').value;
-      var author   = document.getElementById('pageAuthor').value;
-      var ogImg    = document.getElementById('ogImage').value;
-
+    function generate() {
+      var title = document.getElementById('pageTitle').value.trim();
+      var desc  = document.getElementById('pageDesc').value.trim();
+      var kw    = document.getElementById('pageKeywords').value.trim();
+      var url   = document.getElementById('pageUrl').value.trim();
+      var auth  = document.getElementById('pageAuthor').value.trim();
+      var og    = document.getElementById('ogImage').value.trim();
       if (!title || !desc) { alert('กรุณากรอกชื่อเว็บและคำอธิบายก่อนครับ'); return; }
 
-      var code = '<!-- ═══ Basic SEO Meta Tags ═══ -->\n';
-      code += '<meta charset="UTF-8">\n';
-      code += '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n';
-      code += '<title>' + title + '</title>\n';
-      code += '<meta name="description" content="' + desc + '">\n';
-      if (keywords) code += '<meta name="keywords" content="' + keywords + '">\n';
-      if (author)   code += '<meta name="author" content="' + author + '">\n';
-      code += '<meta name="robots" content="index, follow">\n\n';
-      code += '<!-- ═══ Open Graph (Facebook, LINE) ═══ -->\n';
-      code += '<meta property="og:type" content="website">\n';
-      code += '<meta property="og:title" content="' + title + '">\n';
-      code += '<meta property="og:description" content="' + desc + '">\n';
-      if (url)   code += '<meta property="og:url" content="' + url + '">\n';
-      if (ogImg) code += '<meta property="og:image" content="' + ogImg + '">\n';
-      code += '<meta property="og:locale" content="th_TH">\n\n';
-      code += '<!-- ═══ Twitter Card ═══ -->\n';
-      code += '<meta name="twitter:card" content="summary_large_image">\n';
-      code += '<meta name="twitter:title" content="' + title + '">\n';
-      code += '<meta name="twitter:description" content="' + desc + '">\n';
-      if (ogImg) code += '<meta name="twitter:image" content="' + ogImg + '">\n';
-      if (url) { code += '\n<!-- ═══ Canonical URL ═══ -->\n'; code += '<link rel="canonical" href="' + url + '">'; }
+      var c = '<!-- ═══ Basic SEO ═══ -->\n';
+      c += '<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n';
+      c += '<title>' + title + '</title>\n';
+      c += '<meta name="description" content="' + desc + '">\n';
+      if (kw)   c += '<meta name="keywords" content="' + kw + '">\n';
+      if (auth) c += '<meta name="author" content="' + auth + '">\n';
+      c += '<meta name="robots" content="index, follow">\n\n';
+      c += '<!-- ═══ Open Graph ═══ -->\n';
+      c += '<meta property="og:type" content="website">\n';
+      c += '<meta property="og:title" content="' + title + '">\n';
+      c += '<meta property="og:description" content="' + desc + '">\n';
+      if (url) c += '<meta property="og:url" content="' + url + '">\n';
+      if (og)  c += '<meta property="og:image" content="' + og + '">\n';
+      c += '<meta property="og:locale" content="th_TH">\n\n';
+      c += '<!-- ═══ Twitter Card ═══ -->\n';
+      c += '<meta name="twitter:card" content="summary_large_image">\n';
+      c += '<meta name="twitter:title" content="' + title + '">\n';
+      c += '<meta name="twitter:description" content="' + desc + '">\n';
+      if (og) c += '<meta name="twitter:image" content="' + og + '">\n';
+      if (url) { c += '\n<!-- ═══ Canonical ═══ -->\n<link rel="canonical" href="' + url + '">'; }
 
-      document.getElementById('outputCode').textContent = code;
-      document.getElementById('outputWrap').style.display = 'block';
-      updatePreview();
+      document.getElementById('outputCode').textContent = c;
+      document.getElementById('outCard').style.display = 'block';
+      liveUpdate();
     }
 
-    function copyCode() {
-      var code = document.getElementById('outputCode').textContent;
-      navigator.clipboard.writeText(code).then(function() {
-        var btn = document.querySelectorAll('.copy-btn')[0];
-        btn.textContent = '✅ Copied!';
-        setTimeout(function(){ btn.textContent = '📋 Copy HTML'; }, 2000);
+    function copyHTML() {
+      var c = document.getElementById('outputCode').textContent;
+      navigator.clipboard.writeText(c).then(function() {
+        var b = document.querySelectorAll('.obtn')[0];
+        b.textContent = '✅ Copied!';
+        setTimeout(function(){ b.textContent = '📋 Copy HTML'; }, 2000);
       });
     }
 
-    function copyWordpress() {
-      var title    = document.getElementById('pageTitle').value;
-      var desc     = document.getElementById('pageDesc').value;
-      var keywords = document.getElementById('pageKeywords').value;
-      if (!title || !desc) { alert('กรุณากรอกชื่อเว็บและคำอธิบายก่อนครับ'); return; }
-      var kw = keywords ? keywords.split(',')[0].trim() : '';
-      var wp = '── สำหรับ Yoast SEO / RankMath ──\n\n';
-      wp += 'SEO Title:\n' + title + '\n\n';
-      wp += 'Meta Description:\n' + desc + '\n\n';
-      if (kw) wp += 'Focus Keyword:\n' + kw + '\n\n';
-      wp += '── วิธีใช้ ──\n';
-      wp += '1. เปิดหน้าที่ต้องการแก้ใน WordPress\n';
-      wp += '2. เลื่อนลงล่างสุด หา Yoast SEO หรือ RankMath\n';
-      wp += '3. กรอก SEO Title, Meta Description และ Focus Keyword\n';
-      wp += '4. กด Update / Publish';
-      document.getElementById('wpCode').textContent = wp;
+    function copyWP() {
+      var title = document.getElementById('pageTitle').value;
+      var desc  = document.getElementById('pageDesc').value;
+      var kw    = document.getElementById('pageKeywords').value;
+      if (!title || !desc) { alert('กรุณากรอกข้อมูลก่อนครับ'); return; }
+      var focus = kw ? kw.split(',')[0].trim() : '';
+      var t = '── Yoast SEO / RankMath ──\n\nSEO Title:\n' + title + '\n\nMeta Description:\n' + desc;
+      if (focus) t += '\n\nFocus Keyword:\n' + focus;
+      t += '\n\n── วิธีใช้ ──\n1. เปิดหน้าใน WordPress\n2. เลื่อนหา Yoast SEO หรือ RankMath\n3. กรอกข้อมูลด้านบน\n4. กด Update / Publish';
+      document.getElementById('wpCode').textContent = t;
       document.getElementById('wpBox').style.display = 'block';
-      navigator.clipboard.writeText(wp).then(function() {
-        var btn = document.querySelectorAll('.copy-btn')[1];
-        btn.textContent = '✅ Copied!';
-        setTimeout(function(){ btn.textContent = '🔷 Copy สำหรับ WordPress'; }, 2000);
+      navigator.clipboard.writeText(t).then(function() {
+        var b = document.querySelectorAll('.obtn')[1];
+        b.textContent = '✅ Copied!';
+        setTimeout(function(){ b.textContent = '🔷 Copy สำหรับ WordPress'; }, 2000);
       });
     }
   </script>
