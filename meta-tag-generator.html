@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meta Tag Generator — SEOไทย</title>
+  <meta name="description" content="สร้าง Meta Tag HTML สำหรับเว็บไซต์ของคุณฟรี รองรับภาษาไทย" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .tool-hero { text-align:center; padding: 60px 20px 30px; position:relative; z-index:1; }
+    .tool-hero h1 { font-size: clamp(1.8rem,4vw,2.8rem); font-weight:800; margin-bottom:10px; }
+    .tool-hero p { color: var(--text-muted); font-size:1.05rem; }
+    .tool-card { background:var(--surface); border:1px solid var(--border-2); border-radius:var(--radius-lg); padding:32px; margin:0 auto 24px; max-width:760px; position:relative; z-index:1; }
+    .tool-card h2 { font-size:1.1rem; font-weight:700; margin-bottom:20px; color:var(--gold); }
+    .form-group { margin-bottom:18px; }
+    .form-group label { display:block; font-size:0.9rem; font-weight:600; color:var(--text-muted); margin-bottom:6px; }
+    .form-group input, .form-group textarea { width:100%; background:var(--surface-2); border:1px solid var(--border-2); border-radius:var(--radius-sm); padding:12px 16px; color:var(--text); font-family:var(--font-body); font-size:0.95rem; outline:none; transition:border .2s; }
+    .form-group input:focus, .form-group textarea:focus { border-color:var(--gold); }
+    .form-group textarea { min-height:90px; resize:vertical; }
+    .char-count { font-size:0.78rem; color:var(--text-dim); margin-top:4px; }
+    .char-count.warn { color:var(--amber); }
+    .char-count.bad  { color:var(--red); }
+    .gen-btn { width:100%; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; font-size:1rem; border:none; border-radius:var(--radius); padding:14px; cursor:pointer; transition:.2s; }
+    .gen-btn:hover { opacity:.9; transform:translateY(-1px); }
+    .output-box { background:var(--surface-3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; margin-top:20px; display:none; }
+    .output-box pre { font-family:var(--font-mono); font-size:0.82rem; color:#a8d8a8; white-space:pre-wrap; word-break:break-all; }
+    .copy-btn { margin-top:12px; background:var(--surface-2); border:1px solid var(--border-2); color:var(--text); border-radius:var(--radius-sm); padding:8px 18px; cursor:pointer; font-size:0.85rem; transition:.2s; }
+    .copy-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .preview-box { background:white; border-radius:var(--radius-sm); padding:16px; margin-top:16px; }
+    .preview-title { font-size:18px; color:#1a0dab; font-family:Arial,sans-serif; text-decoration:underline; cursor:pointer; }
+    .preview-url { font-size:13px; color:#006621; font-family:Arial,sans-serif; margin:2px 0; }
+    .preview-desc { font-size:13px; color:#545454; font-family:Arial,sans-serif; }
+    .preview-label { font-size:0.8rem; color:var(--text-muted); margin-bottom:8px; }
+    .cta-section { text-align:center; padding:48px 20px; position:relative; z-index:1; }
+    .cta-box { background:var(--surface); border:1px solid var(--gold-dim); border-radius:var(--radius-lg); padding:32px; max-width:600px; margin:0 auto; }
+    .cta-box h3 { font-size:1.3rem; font-weight:700; margin-bottom:8px; }
+    .cta-box p { color:var(--text-muted); margin-bottom:20px; }
+    .cta-link { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-dim)); color:#0d0f1a; font-weight:800; padding:12px 28px; border-radius:var(--radius); text-decoration:none; transition:.2s; }
+    .cta-link:hover { opacity:.9; }
+    .breadcrumb { text-align:center; padding:20px; position:relative; z-index:1; }
+    .breadcrumb a { color:var(--text-muted); text-decoration:none; font-size:0.9rem; }
+    .breadcrumb a:hover { color:var(--gold); }
+    .tools-nav { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; padding:0 20px 30px; position:relative; z-index:1; }
+    .tool-chip { background:var(--surface-2); border:1px solid var(--border-2); border-radius:20px; padding:6px 16px; font-size:0.85rem; color:var(--text-muted); text-decoration:none; transition:.2s; }
+    .tool-chip:hover, .tool-chip.active { border-color:var(--gold); color:var(--gold); }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <header class="site-header">
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px;">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">SEO<span class="logo-thai">ไทย</span></span>
+      </a>
+    </div>
+    <nav class="header-nav">
+      <span class="nav-badge">Free Tool</span>
+    </nav>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="index.html">← กลับหน้าหลัก</a>
+  </div>
+
+  <div class="tools-nav">
+    <a href="meta-tag-generator.html" class="tool-chip active">🏷️ Meta Tag Generator</a>
+    <a href="title-checker.html" class="tool-chip">✅ Title Checker</a>
+    <a href="keyword-density.html" class="tool-chip">📊 Keyword Density</a>
+  </div>
+
+  <div class="tool-hero">
+    <h1>🏷️ Meta Tag <span style="color:var(--gold)">Generator</span></h1>
+    <p>กรอกข้อมูลเว็บไซต์ของคุณ แล้วรับ Meta Tag HTML พร้อมใช้งาน</p>
+  </div>
+
+  <div class="tool-card">
+    <h2>ข้อมูลเว็บไซต์</h2>
+
+    <div class="form-group">
+      <label>ชื่อเว็บไซต์ / Page Title *</label>
+      <input type="text" id="pageTitle" placeholder="เช่น ร้านอาหารไทย อร่อย กรุงเทพ | ชื่อร้าน" oninput="updatePreview(); checkLen('pageTitle','titleCount',50,60)" />
+      <div class="char-count" id="titleCount">0 ตัวอักษร (แนะนำ 50–60)</div>
+    </div>
+
+    <div class="form-group">
+      <label>คำอธิบายเว็บ / Meta Description *</label>
+      <textarea id="pageDesc" placeholder="อธิบายเว็บไซต์ของคุณสั้นๆ ให้คนอยากคลิก เช่น ร้านอาหารไทยต้นตำรับ รสชาติอร่อย ราคาย่อมเยา ใกล้ BTS..." oninput="updatePreview(); checkLen('pageDesc','descCount',120,160)"></textarea>
+      <div class="char-count" id="descCount">0 ตัวอักษร (แนะนำ 120–160)</div>
+    </div>
+
+    <div class="form-group">
+      <label>Keywords (คั่นด้วยจุลภาค)</label>
+      <input type="text" id="pageKeywords" placeholder="เช่น ร้านอาหารไทย, อาหารไทย กรุงเทพ, ข้าวผัด" />
+    </div>
+
+    <div class="form-group">
+      <label>URL เว็บไซต์</label>
+      <input type="text" id="pageUrl" placeholder="https://www.yoursite.co.th" oninput="updatePreview()" />
+    </div>
+
+    <div class="form-group">
+      <label>ชื่อผู้เขียน / Author (ถ้ามี)</label>
+      <input type="text" id="pageAuthor" placeholder="เช่น ทีม SEOไทย" />
+    </div>
+
+    <div class="form-group">
+      <label>Open Graph Image URL (รูปแชร์โซเชียล)</label>
+      <input type="text" id="ogImage" placeholder="https://www.yoursite.co.th/og-image.jpg" />
+    </div>
+
+    <button class="gen-btn" onclick="generateMeta()">✨ สร้าง Meta Tag</button>
+
+    <div class="output-box" id="outputBox">
+      <div class="preview-label">👁️ ตัวอย่างใน Google Search:</div>
+      <div class="preview-box" id="previewBox">
+        <div class="preview-title" id="previewTitle">ชื่อเว็บไซต์ของคุณ</div>
+        <div class="preview-url" id="previewUrl">https://www.yoursite.co.th</div>
+        <div class="preview-desc" id="previewDesc">คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...</div>
+      </div>
+      <div class="preview-label" style="margin-top:16px;">📋 โค้ด HTML (วางใน &lt;head&gt;):</div>
+      <pre id="outputCode"></pre>
+      <button class="copy-btn" onclick="copyCode()">📋 Copy โค้ด</button>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-box">
+      <h3>🔍 ต้องการวิเคราะห์ SEO แบบละเอียด?</h3>
+      <p>วิเคราะห์เว็บไซต์หรือคีย์เวิร์ดของคุณด้วย AI — ฟรี ไม่ต้องสมัครสมาชิก</p>
+      <a href="index.html" class="cta-link">→ คลิกที่นี่เพื่อวิเคราะห์ SEO</a>
+    </div>
+  </div>
+
+  <script>
+    function checkLen(inputId, countId, min, max) {
+      var val = document.getElementById(inputId).value.length;
+      var el  = document.getElementById(countId);
+      el.textContent = val + ' ตัวอักษร (แนะนำ ' + min + '–' + max + ')';
+      el.className = 'char-count' + (val > max ? ' bad' : val < min && val > 0 ? ' warn' : '');
+    }
+
+    function updatePreview() {
+      var title = document.getElementById('pageTitle').value || 'ชื่อเว็บไซต์ของคุณ';
+      var desc  = document.getElementById('pageDesc').value  || 'คำอธิบายเว็บไซต์ของคุณจะแสดงที่นี่...';
+      var url   = document.getElementById('pageUrl').value   || 'https://www.yoursite.co.th';
+      document.getElementById('previewTitle').textContent = title.slice(0,60) + (title.length>60?'...':'');
+      document.getElementById('previewUrl').textContent   = url;
+      document.getElementById('previewDesc').textContent  = desc.slice(0,160) + (desc.length>160?'...':'');
+    }
+
+    function generateMeta() {
+      var title    = document.getElementById('pageTitle').value;
+      var desc     = document.getElementById('pageDesc').value;
+      var keywords = document.getElementById('pageKeywords').value;
+      var url      = document.getElementById('pageUrl').value;
+      var author   = document.getElementById('pageAuthor').value;
+      var ogImg    = document.getElementById('ogImage').value;
+
+      if (!title || !desc) { alert('กรุณากรอกชื่อเว็บและคำอธิบายก่อนครับ'); return; }
+
+      var code = '<!-- ═══ Basic SEO Meta Tags ═══ -->\n';
+      code += '<meta charset="UTF-8">\n';
+      code += '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n';
+      code += '<title>' + title + '</title>\n';
+      code += '<meta name="description" content="' + desc + '">\n';
+      if (keywords) code += '<meta name="keywords" content="' + keywords + '">\n';
+      if (author)   code += '<meta name="author" content="' + author + '">\n';
+      code += '<meta name="robots" content="index, follow">\n\n';
+
+      code += '<!-- ═══ Open Graph (Facebook, LINE) ═══ -->\n';
+      code += '<meta property="og:type" content="website">\n';
+      code += '<meta property="og:title" content="' + title + '">\n';
+      code += '<meta property="og:description" content="' + desc + '">\n';
+      if (url)   code += '<meta property="og:url" content="' + url + '">\n';
+      if (ogImg) code += '<meta property="og:image" content="' + ogImg + '">\n';
+      code += '<meta property="og:locale" content="th_TH">\n\n';
+
+      code += '<!-- ═══ Twitter Card ═══ -->\n';
+      code += '<meta name="twitter:card" content="summary_large_image">\n';
+      code += '<meta name="twitter:title" content="' + title + '">\n';
+      code += '<meta name="twitter:description" content="' + desc + '">\n';
+      if (ogImg) code += '<meta name="twitter:image" content="' + ogImg + '">\n';
+
+      if (url) {
+        code += '\n<!-- ═══ Canonical URL ═══ -->\n';
+        code += '<link rel="canonical" href="' + url + '">';
+      }
+
+      document.getElementById('outputCode').textContent = code;
+      document.getElementById('outputBox').style.display = 'block';
+      updatePreview();
+      document.getElementById('outputBox').scrollIntoView({behavior:'smooth'});
+    }
+
+    function copyCode() {
+      var code = document.getElementById('outputCode').textContent;
+      navigator.clipboard.writeText(code).then(function() {
+        var btn = document.querySelector('.copy-btn');
+        btn.textContent = '✅ Copied!';
+        setTimeout(function(){ btn.textContent = '📋 Copy โค้ด'; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
