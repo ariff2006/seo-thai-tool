@@ -10,24 +10,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:        #070d1a;
-      --bg2:       #0a1628;
-      --surface:   #0f1e38;
-      --surface2:  #162544;
-      --surface3:  #1c2f52;
-      --blue:      #38bdf8;
-      --blue-dim:  #0ea5e9;
-      --blue-deep: #0369a1;
-      --blue-glow: rgba(56,189,248,0.15);
-      --teal:      #22d3ee;
-      --text:      #e2eaf8;
-      --muted:     #6b87b4;
-      --dim:       #3d567a;
-      --border:    rgba(56,189,248,0.12);
-      --border2:   rgba(56,189,248,0.22);
-      --green:     #34d399;
-      --amber:     #fbbf24;
-      --red:       #f87171;
+      --bg:        #111827;
+      --bg2:       #1a2535;
+      --surface:   #1e3050;
+      --surface2:  #243b61;
+      --surface3:  #2d4a75;
+      --blue:      #60c8f5;
+      --blue-dim:  #38aee8;
+      --blue-deep: #1a7fbf;
+      --blue-glow: rgba(96,200,245,0.15);
+      --teal:      #34d9ee;
+      --text:      #e8f0ff;
+      --muted:     #90aed4;
+      --dim:       #4e6d96;
+      --border:    rgba(96,200,245,0.15);
+      --border2:   rgba(96,200,245,0.28);
+      --green:     #4ade80;
+      --amber:     #fcd34d;
+      --red:       #fb7185;
       --r-sm:      8px;
       --r:         14px;
       --r-lg:      20px;
@@ -42,10 +42,11 @@
     .bg-mesh {
       position:fixed; inset:0; z-index:0; pointer-events:none;
       background:
-        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(14,165,233,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(34,211,238,0.08) 0%, transparent 60%),
-        linear-gradient(rgba(56,189,248,0.02) 1px, transparent 1px) 0 0 / 56px 56px,
-        linear-gradient(90deg, rgba(56,189,248,0.02) 1px, transparent 1px) 0 0 / 56px 56px;
+        radial-gradient(ellipse 70% 50% at 15% 0%, rgba(56,174,232,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% 100%, rgba(52,217,238,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 50% 50%, rgba(30,48,80,0.5) 0%, transparent 80%),
+        linear-gradient(rgba(96,200,245,0.03) 1px, transparent 1px) 0 0 / 52px 52px,
+        linear-gradient(90deg, rgba(96,200,245,0.03) 1px, transparent 1px) 0 0 / 52px 52px;
     }
 
     /* ── HEADER ── */
@@ -54,7 +55,7 @@
       display:flex; align-items:center; justify-content:space-between;
       padding:18px 32px;
       border-bottom:1px solid var(--border);
-      background:rgba(7,13,26,0.8); backdrop-filter:blur(12px);
+      background:rgba(17,24,39,0.85); backdrop-filter:blur(12px);
     }
     .logo { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:1.15rem; font-weight:700; text-decoration:none; color:var(--text); }
     .logo-mark { color:var(--blue); font-size:1.3rem; }
@@ -132,9 +133,9 @@
     .serp-fav { width:20px; height:20px; background:var(--surface3); border-radius:50%; display:grid; place-items:center; font-size:10px; flex-shrink:0; }
     .serp-site { font-size:15px; color:var(--text); }
     .serp-url  { font-size:13px; color:var(--muted); }
-    .serp-title { font-size:20px; color:#60a5fa; font-family:Arial,sans-serif; word-break:break-word; margin-bottom:6px; line-height:1.35; cursor:pointer; }
+    .serp-title { font-size:20px; color:#7ec8f8; font-family:Arial,sans-serif; word-break:break-word; margin-bottom:6px; line-height:1.35; cursor:pointer; }
     .serp-title:hover { text-decoration:underline; }
-    .serp-desc  { font-size:15px; color:#94a3b8; font-family:Arial,sans-serif; line-height:1.5; }
+    .serp-desc  { font-size:15px; color:#aec4dd; font-family:Arial,sans-serif; line-height:1.5; }
 
     /* ── OUTPUT ── */
     .out-card { background:var(--surface); border:1px solid var(--border2); border-radius:var(--r-lg); overflow:hidden; display:none; }
